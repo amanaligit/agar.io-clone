@@ -3,6 +3,7 @@ console.log("check");
 let wHeight = $(window).height();
 let wWidth = $(window).width();
 let player = {};
+let orbs = [];
 
 let canvas = $('#the-canvas')[0];
 let context = canvas.getContext('2d');
