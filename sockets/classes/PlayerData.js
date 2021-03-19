@@ -1,9 +1,11 @@
-class Orb {
-    constructor(settings) {
+class PlayerData {
+    constructor(playerName, settings) {
+        this.name = playerName;
+        this.locX = 200
+        this.locY = 200
+        this.radius = settings.defaultSize;
         this.color = this.getRandomColor();
-        this.locX = Math.floor(Math.random() * settings.worldWidth);
-        this.locY = Math.floor(Math.random() * settings.worldHeight);
-        this.radius = 5;
+        this.score = 0;
     }
     getRandomColor() {
         const r = Math.floor(Math.random() * 200 + 50);
@@ -13,4 +15,4 @@ class Orb {
     }
 }
 
-module.exports = Orb;
+module.exports = PlayerData;
