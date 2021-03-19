@@ -1,11 +1,16 @@
+
+const { v4: uuidv4 } = require('uuid');
+
 class PlayerData {
     constructor(playerName, settings) {
+        this.uid = uuidv4();
         this.name = playerName;
-        this.locX = 200
-        this.locY = 200
+        this.locX = Math.floor(Math.random() * (settings.worldWidth - 5))
+        this.locY = Math.floor(Math.random() * (settings.worldWidth - 5))
         this.radius = settings.defaultSize;
         this.color = this.getRandomColor();
         this.score = 0;
+        this.orbsAbsorbed = 0;
     }
     getRandomColor() {
         const r = Math.floor(Math.random() * 200 + 50);

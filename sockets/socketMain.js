@@ -1,5 +1,6 @@
 const io = require('../servers').io;
-
+const checkForOrbCollisions = require('./checkCollisions').checkForOrbCollisions;
+const checkForPlayerCollisions = require('./checkCollisions').checkForPlayerCollisions;
 //=====================classes======================
 const Player = require('./classes/Player');
 const PlayerConfig = require('./classes/PlayerConfig');
@@ -11,12 +12,12 @@ let orbs = [];
 let players = [];
 
 let settings = {
-    defaultOrbs: 500,
+    defaultOrbs: 2500,
     defaultSpeed: 6,
     defaultSize: 6,
     defaultZoom: 1.5,
-    worldWidth: 500,
-    worldHeight: 500
+    worldWidth: 5000,
+    worldHeight: 5000
 }
 
 initGame()
@@ -49,32 +50,82 @@ io.sockets.on('connect', socket => {
     socket.on('tick', data => {
         // console.log(player);
         if (player.playerConfig) {
-
+            //==============M=============ove the player using the vector==============================
             speed = player.playerConfig.speed;
-            // console.log("speed", speed);
-
-            // console.log(data);
             xV = player.playerConfig.xVector = data.xVector;
             yV = player.playerConfig.yVector = data.yVector;
-            if ((player.playerData.locX < 5 && xV < 0) || (player.playerData.locX > 500) && (xV > 0)) {
-                player.playerData.locY -= speed * yV;
-            } else if ((player.playerData.locY < 5 && yV > 0) || (player.playerData.locY > 500) && (yV > 0)) {
-                player.playerData.locX += speed * xV;
+            if ((player.playerData.locX < 5 && xV < 0) || (player.playerData.locX > settings.worldWidth) && (xV > 0)) {
+                if (player.playerData.locY > 5 && player.playerData.locY < settings.worldHeight)
+                    player.playerData.locY -= speed * yV;
+            } else if ((player.playerData.locY < 5 && yV > 0) || player.playerData.locY > settings.worldHeight && yV < 0) {
+                if (player.playerData.locX > 5 && player.playerData.locX < settings.worldWidth)
+                    player.playerData.locX += speed * xV;
             } else {
                 player.playerData.locX += speed * xV;
                 player.playerData.locY -= speed * yV;
             }
+            let capturedOrb = checkForOrbCollisions(player.playerData, player.playerConfig, orbs, settings);
+            capturedOrb.then(indices => {
+                //if reolve happens then a collision happened!
+                // console.log("Orb Collision", indices);
+                const newOrbs = [];
+                indices.forEach(i => {
+                    newOrbs.push(orbs[i]);
+                })
+                //emit to all sockets the orb to be replaced
+                const orbData = {
+                    orbIndices: indices,
+                    newOrbs
+                }
+                // console.log(orbData);
+                //Updating the Leaderboard
+                io.sockets.emit('updateLeaderBoard', getLeaderBoard());
+                io.sockets.emit('orbSwitch', orbData);
+            }).catch(() => {
+                //catch runs if reject runs
+            })
             // console.log(player.playerData);
+            //Player collisions
+            let playerDeath = checkForPlayerCollisions(player.playerData, player.playerConfig, players, player.socketId);
+            playerDeath.then(data => {
+                //PlayerCollision!!
+                console.log("player collision happened");
+                io.sockets.emit('updateLeaderBoard', getLeaderBoard());
+                io.sockets.emit('playerDeath', data);
+            }).catch(() => {
+                //No player collision
+            })
         }
         else {
             socket.emit('reconnect');
         }
 
     })
+    socket.on('disconnect', data => {
+        // console.log(data);
+        //find out who just left!
+        if (player.playerData) {
+            players.forEach((cp, i) => {
+                if (cp.uid === player.playerData.uid)
+                    players.splice(i, 1);
+            })
+        }
+    })
 
 })
 
-
+function getLeaderBoard() {
+    players.sort((a, b) => {
+        return b.score - a.score;
+    })
+    let leaderBoard = players.map(curplayer => {
+        return {
+            name: curplayer.name,
+            score: curplayer.score
+        }
+    })
+    return leaderBoard;
+}
 
 //run at the beginning of a new game
 function initGame() {

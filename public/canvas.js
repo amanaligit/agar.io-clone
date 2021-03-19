@@ -20,7 +20,7 @@ function draw() {
     players.forEach(p => {
         context.beginPath();
         context.fillStyle = p.color;
-        context.arc(p.locX, p.locY, 10, 0, Math.PI * 2)
+        context.arc(p.locX, p.locY, p.radius, 0, Math.PI * 2)
         context.fill();
         context.linewidth = 3;
         context.strokeStyle = "rgb(0,255,0)"
