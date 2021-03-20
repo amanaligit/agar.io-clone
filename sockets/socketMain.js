@@ -48,7 +48,8 @@ io.sockets.on('connect', socket => {
 
     socket.on('tick', data => {
         // console.log(player);
-        if (player.playerConfig) {
+        if (player.playerConfig && player.playerData.alive) {
+            // console.log(player.playerData.name is )
             //==============M=============ove the player using the vector==============================
             speed = player.playerConfig.speed;
             xV = player.playerConfig.xVector = data.xVector;

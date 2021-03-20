@@ -76,8 +76,7 @@ function checkForPlayerCollisions(pData, pConfig, players, playerId) {
                                 pConfig.zoom -= (pR * 0.25) * .001;
                             }
                             //  = false;
-                            // let cp = players[i];
-                            // cp.playerData.alive = false;
+                            curPlayer.alive = false;
                             players.splice(i, 1);
                             resolve(collisionData);
 

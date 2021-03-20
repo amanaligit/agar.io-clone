@@ -1,231 +1,247 @@
-body{
-	background-color: black;
-	overflow: hidden;
+body {
+  background-color: black;
+  overflow: hidden;
 }
-h3{
-	margin-top: 10px
+h3 {
+  margin-top: 10px;
 }
-#game-field{
-	padding: 0;
-	position: relative;
-}
-
-#score-wrapper{
-	min-width: 120px;
-	background-color: white;
-	color: black;
-	font-size: 23px;
-	opacity: 0.7;
-	position: absolute;
-	top: 10px;
-	left: 10px;
-	padding: 5px;
-	border-radius: 5px;
+#game-field {
+  padding: 0;
+  position: relative;
 }
 
-#leader-board-wrapper{
-	min-width: 160px;
-	background-color: #800000;
-	color: white;
-	font-size: 18px;
-	opacity: 0.7;
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	border-radius: 5px;
+.close {
+  display: none;
 }
 
-#leader-board{
-	padding: 5px;
+#score-wrapper {
+  min-width: 120px;
+  background-color: white;
+  color: black;
+  font-size: 23px;
+  opacity: 0.7;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 5px;
+  border-radius: 5px;
 }
 
-#sort-wrapper{
-	margin-top: -20px;
-	font-size: 14px;
+#leader-board-wrapper {
+  min-width: 160px;
+  background-color: #800000;
+  color: white;
+  font-size: 18px;
+  opacity: 0.7;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 5px;
 }
 
-.sort-option{
-	padding: 3px 0;
-	width: 33.33%;
-	text-align: center;
-	float: left;
-	border-top: solid 2px black;
+#leader-board {
+  padding: 5px;
 }
 
-.sort-option:hover{
-	cursor: pointer;
-	background-color: #4d0000;
+#sort-wrapper {
+  margin-top: -20px;
+  font-size: 14px;
 }
 
-.active{
-	background-color: #4d0000;
+.sort-option {
+  padding: 3px 0;
+  width: 33.33%;
+  text-align: center;
+  float: left;
+  border-top: solid 2px black;
 }
 
-#sort-orbs{
-	border-left: solid 2px black;
-	border-right: solid 2px black;
+.sort-option:hover {
+  cursor: pointer;
+  background-color: #4d0000;
 }
 
-canvas{
-	display: block;
-	background-color: white;
-}
-.modal-sm{
-	min-width: 500px;
-	width: 30%;
+.active {
+  background-color: #4d0000;
 }
 
-.modal-content{
-	margin-top: 100px;
-	background-color: #FFFFFF;
-	border-radius: 10px;
+#sort-orbs {
+  border-left: solid 2px black;
+  border-right: solid 2px black;
 }
 
-.text-input{
-	font-size: 20px;
-	display: block;
-	margin: auto;
-	margin-bottom: 20px;
-	width: 90%;
-	padding: 5px;
-	border-radius: 5px;
+canvas {
+  display: block;
+  background-color: white;
+}
+.modal-sm {
+  min-width: 500px;
+  width: 30%;
 }
 
-.error-message{
-	font-size: 13px;
-	color: #e60000;
+.modal-content {
+  margin-top: 100px;
+  background-color: #ffffff;
+  border-radius: 10px;
 }
 
-.play-button{
-	font-size: 20px;	
-	display: block;
-	margin: 5px auto 5px;
-	width: 90%;
-	background-color: #00e6e6;
-	color: #FFFFFF;
+.text-input {
+  font-size: 20px;
+  display: block;
+  margin: auto;
+  margin-bottom: 20px;
+  width: 90%;
+  padding: 5px;
+  border-radius: 5px;
 }
 
-#join-team-btn, #play-solo-btn, #create-team-btn, #create-play-solo-btn, #add-team-btn{
-	width: 48%;
-	margin: 5px auto 15px;
-	font-size: 18px;	
-	display: inline-block;
-	background-color: #00e6e6;
-	color: #FFFFFF;
+.error-message {
+  font-size: 13px;
+  color: #e60000;
 }
 
-#create-team-btn, #add-team-btn, #join-team-btn{
-	background-color: #00e600;
+.play-button {
+  font-size: 20px;
+  display: block;
+  margin: 5px auto 5px;
+  width: 90%;
+  background-color: #00e6e6;
+  color: #ffffff;
 }
 
-.btn-github{
-	background-image: url("/images/GitHub-Mark-Light-32px.png") !important;
-	color: #fff;
-    background-color: #444;
-	border-color: rgba(0,0,0,0.2);
-	background-repeat: no-repeat;
-	background-position: 5px;
-}
-.btn-github:hover{
-	color: rgba(200,200,200,0.5);
-}
-
-.stats-btn{
-	width: 48%;
-	margin: 0 auto 15px;
-	font-size: 18px;	
-	display: inline-block;
-	background-color: #e600e6;
-	color: #FFFFFF;
+#join-team-btn,
+#play-solo-btn,
+#create-team-btn,
+#create-play-solo-btn,
+#add-team-btn {
+  width: 48%;
+  margin: 5px auto 15px;
+  font-size: 18px;
+  display: inline-block;
+  background-color: #00e6e6;
+  color: #ffffff;
 }
 
-#create-button{
-	font-size: 20px;	
-	display: block;
-	margin: 5px auto 5px;
-	width: 90%;
-	background-color: #00e600;
-	color: #FFFFFF;
+#create-team-btn,
+#add-team-btn,
+#join-team-btn {
+  background-color: #00e600;
 }
 
-#playerStats-all-btn, #playerStats-player-btn{
-	font-size: 20px;	
-	display: block;
-	margin: 5px auto 5px;
-	width: 90%;
-	background-color: #e600e6;
-	color: #FFFFFF;
+.btn-github {
+  background-image: url("/images/GitHub-Mark-Light-32px.png") !important;
+  color: #fff;
+  background-color: #444;
+  border-color: rgba(0, 0, 0, 0.2);
+  background-repeat: no-repeat;
+  background-position: 5px;
+}
+.btn-github:hover {
+  color: rgba(200, 200, 200, 0.5);
 }
 
-.stats-btn-wrapper, .play-btn-wrapper{
-	width: 90%;
-	margin: auto;
+.stats-btn {
+  width: 48%;
+  margin: 0 auto 15px;
+  font-size: 18px;
+  display: inline-block;
+  background-color: #e600e6;
+  color: #ffffff;
 }
 
-.btn-wrapper{
-	width: 90%;
-	margin: 20px auto;
+#create-button {
+  font-size: 20px;
+  display: block;
+  margin: 5px auto 5px;
+  width: 90%;
+  background-color: #00e600;
+  color: #ffffff;
 }
 
-.player-stats-btn, #join-team-btn, #create-team-btn, #add-team-btn{
-	float: left;
+#playerStats-all-btn,
+#playerStats-player-btn {
+  font-size: 20px;
+  display: block;
+  margin: 5px auto 5px;
+  width: 90%;
+  background-color: #e600e6;
+  color: #ffffff;
 }
 
-.all-stats-btn, #play-solo-btn, #create-play-solo-btn{
-	float: right;
+.stats-btn-wrapper,
+.play-btn-wrapper {
+  width: 90%;
+  margin: auto;
 }
 
-.stats, .stat-number{
-	padding-top: 10px;
-	font-size: 20px;
-	width: 70%;
-	display: inline-block;
+.btn-wrapper {
+  width: 90%;
+  margin: 20px auto;
 }
 
-.stat-number{
-	width: 30%;
-	font-weight: bold;
+.player-stats-btn,
+#join-team-btn,
+#create-team-btn,
+#add-team-btn {
+  float: left;
 }
 
-.modal-footer{
-	clear: both;
-	text-align: left;
+.all-stats-btn,
+#play-solo-btn,
+#create-play-solo-btn {
+  float: right;
 }
 
-.player-stats{
-	font-size: 18px;
-	font-weight: bold;
+.stats,
+.stat-number {
+  padding-top: 10px;
+  font-size: 20px;
+  width: 70%;
+  display: inline-block;
 }
 
-.teams{
-	margin: 10px 0;
+.stat-number {
+  width: 30%;
+  font-weight: bold;
 }
 
-.join-button{
-	color: white;
-	background-color: #00e6e6;
-	margin-right: 10px;
+.modal-footer {
+  clear: both;
+  text-align: left;
 }
 
-.team{
-	font-size: 18px
+.player-stats {
+  font-size: 18px;
+  font-weight: bold;
 }
 
-#game-message-wrapper{
-	position: fixed;
-	width: 100%;
-	bottom: 20px;
+.teams {
+  margin: 10px 0;
 }
 
-#game-message{
-	display: table;
-	font-size: 20px;
-	border-radius: 5px;
-	padding: 5px 15px;
-	color: white;
-	background-color: #e600e6;
-	margin: auto;
-	opacity: 0;
+.join-button {
+  color: white;
+  background-color: #00e6e6;
+  margin-right: 10px;
 }
 
+.team {
+  font-size: 18px;
+}
 
+#game-message-wrapper {
+  position: fixed;
+  width: 100%;
+  bottom: 20px;
+}
+
+#game-message {
+  display: table;
+  font-size: 20px;
+  border-radius: 5px;
+  padding: 5px 15px;
+  color: white;
+  background-color: #e600e6;
+  margin: auto;
+  opacity: 0;
+}
