@@ -5,8 +5,8 @@ Tech used: Frontend: Javascript, Backend: NodeJS, Express, SocketIO for real tim
 
 To install:
 Just run npm install then node index.js or npm run dev for development environment.
-By default the program runs locally but you can broadcast it to a local network like wifi if you want to play on multiple devices.
-Access the IP using different devices (or different windows on same device).
+The game runs on the local network the computer is connected to.
+You can access the game on any device connected to the network by going the the IP address of the host computer.
 
 Rules of the game:
 Move your mouse on the screen to move your character.
