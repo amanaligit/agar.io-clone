@@ -4,7 +4,7 @@
 Tech used: Frontend: Javascript, Backend: NodeJS, Express, SocketIO for real time communication b/w players and the server.
 
 To install:
-1. Just run npm install then node index.js or npm run dev for development environment.
+1. Run "npm install" then "node index.js" to start the server.
 2. The game runs on the local network the computer is connected to.
 3. You can access the game on any device connected to the network by going the the IP address of the host computer.
 
