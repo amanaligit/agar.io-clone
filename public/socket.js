@@ -1,4 +1,5 @@
-let socket = io.connect('http://localhost:8080')
+let socket = io.connect('http://192.168.29.231:8080')
+var clock = null;
 
 //called when user presses the start button
 function init() {
@@ -11,7 +12,8 @@ function init() {
 socket.on('initReturn', data => {
     // console.log(data.orbs);
     orbs = data.orbs;
-    setInterval(() => {
+    player.uid = data.uid;
+    clock = setInterval(() => {
         // console.log("tick");
         socket.emit('tick', {
             xVector: player.xVector,
@@ -20,7 +22,7 @@ socket.on('initReturn', data => {
     }, 15)
 })
 
-socket.on('reconnect', () => {
+socket.on('goback', () => {
     // console.log(data.orbs);
     socket.emit('init', {
         playerName: player.name
@@ -67,4 +69,9 @@ socket.on('playerDeath', data => {
     });
     $('#game-message').show();
     $('#game-message').fadeOut(5000);
+    if (player.uid === data.died.uid) {
+        $('#game-over-modal').modal('show');
+        document.querySelector('#score-dialog').innerHTML = document.querySelector('.player-score').innerHTML;
+        document.querySelector('#killed-by-dialog').innerHTML = data.killedBy.name;
+    }
 })

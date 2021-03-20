@@ -12,12 +12,12 @@ let orbs = [];
 let players = [];
 
 let settings = {
-    defaultOrbs: 2500,
+    defaultOrbs: 350,
     defaultSpeed: 6,
     defaultSize: 6,
     defaultZoom: 1.5,
-    worldWidth: 5000,
-    worldHeight: 5000
+    worldWidth: 2000,
+    worldHeight: 2000
 }
 
 initGame()
@@ -27,7 +27,6 @@ initGame()
 
 
 io.sockets.on('connect', socket => {
-
     let player = {};
     socket.on('init', data => {
         socket.join('game');
@@ -42,7 +41,7 @@ io.sockets.on('connect', socket => {
                 playerY: player.playerData.locY
             });
         }, 15);
-        socket.emit('initReturn', { orbs });
+        socket.emit('initReturn', { orbs, uid: player.playerData.uid });
         // console.log(player);
         players.push(playerData);
     })
@@ -86,7 +85,7 @@ io.sockets.on('connect', socket => {
             })
             // console.log(player.playerData);
             //Player collisions
-            let playerDeath = checkForPlayerCollisions(player.playerData, player.playerConfig, players, player.socketId);
+            let playerDeath = checkForPlayerCollisions(player.playerData, player.playerConfig, players, player.playerData.uid);
             playerDeath.then(data => {
                 //PlayerCollision!!
                 console.log("player collision happened");
@@ -96,10 +95,6 @@ io.sockets.on('connect', socket => {
                 //No player collision
             })
         }
-        else {
-            socket.emit('reconnect');
-        }
-
     })
     socket.on('disconnect', data => {
         // console.log(data);
