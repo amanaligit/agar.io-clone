@@ -1,4 +1,4 @@
-let socket = io.connect('http://192.168.29.231:8080')
+let socket = io.connect('/')
 var clock = null;
 
 //called when user presses the start button
