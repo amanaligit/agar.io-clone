@@ -12,12 +12,12 @@ let orbs = [];
 let players = [];
 
 let settings = {
-    defaultOrbs: 350,
+    defaultOrbs: 500,
     defaultSpeed: 4,
     defaultSize: 6,
     defaultZoom: 2,
-    worldWidth: 2000,
-    worldHeight: 2000
+    worldWidth: 5000,
+    worldHeight: 5000
 }
 
 initGame()
