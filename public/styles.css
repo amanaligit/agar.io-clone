@@ -10,6 +10,20 @@ h3 {
   position: relative;
 }
 
+.modal {
+  width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"] {
+    font-size: 16px;
+  }
+}
+
 .close {
   display: none;
 }
