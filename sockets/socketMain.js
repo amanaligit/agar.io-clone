@@ -42,7 +42,7 @@ io.sockets.on('connect', socket => {
                 zoom: player.playerConfig.zoom
             });
             // console.log(player.playerConfig.zoom);
-        }, 16);
+        }, 33);
         socket.emit('initReturn', { orbs, uid: player.playerData.uid });
         // console.log(player);
         players.push(playerData);
