@@ -33,7 +33,7 @@ socket.on('initReturn', data => {
             xVector: player.xVector,
             yVector: player.yVector
         })
-    }, 33)
+    }, 16)
 })
 
 socket.on('goback', () => {
