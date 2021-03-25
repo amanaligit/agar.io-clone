@@ -13,9 +13,9 @@ let players = [];
 
 let settings = {
     defaultOrbs: 350,
-    defaultSpeed: 6,
+    defaultSpeed: 4,
     defaultSize: 6,
-    defaultZoom: 1.5,
+    defaultZoom: 2,
     worldWidth: 2000,
     worldHeight: 2000
 }
@@ -38,9 +38,11 @@ io.sockets.on('connect', socket => {
             socket.emit('tock', {
                 players,
                 playerX: player.playerData.locX,
-                playerY: player.playerData.locY
+                playerY: player.playerData.locY,
+                zoom: player.playerConfig.zoom
             });
-        }, 15);
+            // console.log(player.playerConfig.zoom);
+        }, 16);
         socket.emit('initReturn', { orbs, uid: player.playerData.uid });
         // console.log(player);
         players.push(playerData);

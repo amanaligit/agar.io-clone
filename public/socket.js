@@ -3,6 +3,20 @@ var clock = null;
 
 //called when user presses the start button
 function init() {
+    var elem = document.documentElement;
+    function zoomOutMobile() {
+        var viewport = document.querySelector('meta[name="viewport"]');
+
+        if (viewport) {
+            viewport.content = "initial-scale=0.1";
+            viewport.content = "width=1200";
+        }
+    }
+
+    zoomOutMobile();
+    canvas.width = $(window).width();
+    canvas.height = $(window).height();
+    console.log(canvas.width);
     draw();
     socket.emit('init', {
         playerName: player.name
@@ -19,7 +33,7 @@ socket.on('initReturn', data => {
             xVector: player.xVector,
             yVector: player.yVector
         })
-    }, 15)
+    }, 16)
 })
 
 socket.on('goback', () => {
@@ -33,7 +47,16 @@ socket.on('tock', data => {
     // console.log(data);
     players = data.players;
     player.locX = data.playerX;
+
     player.locY = data.playerY;
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        // true for mobile device
+        player.zoom = 2 * data.zoom;
+    } else {
+        // false for not mobile device
+        player.zoom = data.zoom;
+    }
+    // console.log(player.zoom);
     // console.log(player);
 })
 

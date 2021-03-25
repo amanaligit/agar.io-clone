@@ -23,7 +23,7 @@ function checkForOrbCollisions(pData, pConfig, orbs, settings) {
                     pData.orbsAbsorbed += 1;
                     // pData.color = orb.color;
                     if (pConfig.zoom > 1) {
-                        pConfig.zoom -= .001;
+                        pConfig.zoom -= .008;
                     }
                     pData.radius += 0.25;
                     if (pConfig.speed <= 0.005) {
@@ -73,7 +73,7 @@ function checkForPlayerCollisions(pData, pConfig, players, playerId) {
                             // ENEMY DEATH
                             let collisionData = updateScores(pData, curPlayer);
                             if (pConfig.zoom > 1) {
-                                pConfig.zoom -= (pR * 0.25) * .001;
+                                pConfig.zoom -= (pR * 0.25) * .008;
                             }
                             //  = false;
                             curPlayer.alive = false;

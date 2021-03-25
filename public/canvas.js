@@ -10,10 +10,11 @@ function draw() {
     //clear the screen out
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.clearRect(0, 0, canvas.width, canvas.height);
+    context.scale(player.zoom, player.zoom);
     //reset the translation back to default
     //clamp the camera to the player
-    const camX = -player.locX + canvas.width / 2
-    const camy = -player.locY + canvas.height / 2
+    const camX = -player.locX + canvas.width / (2 * player.zoom)
+    const camy = -player.locY + canvas.height / (2 * player.zoom)
     context.translate(camX, camy);
     //translate helps us to move the canvas around
 
@@ -68,6 +69,7 @@ canvas.addEventListener('mousemove', (event) => {
 
 canvas.addEventListener('touchmove', (event) => {
     // console.log(event)
+    event.preventDefault();
     const mousePosition = {
         x: event.touches[0].clientX,
         y: event.touches[0].clientY

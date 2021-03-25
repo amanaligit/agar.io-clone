@@ -2,7 +2,7 @@
 console.log("check");
 let wHeight = $(window).height();
 let wWidth = $(window).width();
-let player = { xVector: 1, yVector: 0 };
+let player = { xVector: 0, yVector: 0.1, zoom: 1.5 };
 let orbs = [];
 let players = [];
 
