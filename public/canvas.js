@@ -3,19 +3,33 @@
 //=============DRAW===============
 //================================
 
+var background = new Image();
+background.src = "images/starfield.jpg";
+background.onload = function () {
+}
+
+
 // player.locX = Math.floor(500 * Math.random() + 100)
 // player.locY = Math.floor(500 * Math.random() + 100)
 function draw() {
     // console.log(player.locX, player.locY);
     //clear the screen out
+
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.clearRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = "black";
+    context.fillRect(0, 0, canvas.width, canvas.height);
     context.scale(player.zoom, player.zoom);
     //reset the translation back to default
     //clamp the camera to the player
     const camX = -player.locX + canvas.width / (2 * player.zoom)
     const camy = -player.locY + canvas.height / (2 * player.zoom)
     context.translate(camX, camy);
+
+    // console.log(player.locX, player.locY);
+    context.drawImage(background, 0, 0);
+    // context.drawImage(background, player.locX, player.locY, 100, 100, camX, camy, 100, 100);
+
     //translate helps us to move the canvas around
 
     players.forEach(p => {

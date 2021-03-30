@@ -1,5 +1,5 @@
 body {
-  background-color: black;
+  /* background-color: black; */
   overflow: hidden;
 }
 h3 {
@@ -8,6 +8,15 @@ h3 {
 #game-field {
   padding: 0;
   position: relative;
+}
+
+.hidden {
+  display: none;
+}
+
+label {
+  margin-bottom: 10px;
+  display: block;
 }
 
 .modal {
@@ -79,14 +88,23 @@ h3 {
   background-color: #4d0000;
 }
 
+#btn-login {
+  margin-top: 2rem;
+}
+
 #sort-orbs {
   border-left: solid 2px black;
   border-right: solid 2px black;
 }
 
+th {
+  cursor: pointer;
+}
+
 canvas {
   display: block;
-  background-color: white;
+  background-color: black;
+  background-image: url("images/starfield.jpg");
 }
 .modal-sm {
   min-width: 500px;
@@ -95,7 +113,7 @@ canvas {
 
 .modal-content {
   margin-top: 100px;
-  background-color: #ffffff;
+  background-color: white;
   border-radius: 10px;
 }
 
@@ -103,7 +121,7 @@ canvas {
   font-size: 20px;
   display: block;
   margin: auto;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   width: 90%;
   padding: 5px;
   border-radius: 5px;
@@ -119,39 +137,17 @@ canvas {
   display: block;
   margin: 5px auto 5px;
   width: 90%;
-  background-color: #00e6e6;
-  color: #ffffff;
-}
-
-#join-team-btn,
-#play-solo-btn,
-#create-team-btn,
-#create-play-solo-btn,
-#add-team-btn {
-  width: 48%;
-  margin: 5px auto 15px;
-  font-size: 18px;
-  display: inline-block;
-  background-color: #00e6e6;
-  color: #ffffff;
-}
-
-#create-team-btn,
-#add-team-btn,
-#join-team-btn {
-  background-color: #00e600;
+  /* background-color: #00e6e6; */
+  /* color: #ffffff; */
 }
 
 .btn-github {
   background-image: url("/images/GitHub-Mark-Light-32px.png") !important;
-  color: #fff;
+  /* color: #fff; */
   background-color: #444;
   border-color: rgba(0, 0, 0, 0.2);
   background-repeat: no-repeat;
   background-position: 5px;
-}
-.btn-github:hover {
-  color: rgba(200, 200, 200, 0.5);
 }
 
 .stats-btn {
@@ -159,7 +155,7 @@ canvas {
   margin: 0 auto 15px;
   font-size: 18px;
   display: inline-block;
-  background-color: #e600e6;
+  /* background-color: #e600e6; */
   color: #ffffff;
 }
 
@@ -168,8 +164,8 @@ canvas {
   display: block;
   margin: 5px auto 5px;
   width: 90%;
-  background-color: #00e600;
-  color: #ffffff;
+  /* background-color: #00e600; */
+  /* color: #ffffff; */
 }
 
 #playerStats-all-btn,
@@ -178,8 +174,8 @@ canvas {
   display: block;
   margin: 5px auto 5px;
   width: 90%;
-  background-color: #e600e6;
-  color: #ffffff;
+  /* background-color: #e600e6; */
+  /* color: #ffffff; */
 }
 
 .stats-btn-wrapper,
@@ -193,17 +189,8 @@ canvas {
   margin: 20px auto;
 }
 
-.player-stats-btn,
-#join-team-btn,
-#create-team-btn,
-#add-team-btn {
-  float: left;
-}
-
-.all-stats-btn,
-#play-solo-btn,
-#create-play-solo-btn {
-  float: right;
+#logout-btn {
+  display: none;
 }
 
 .stats,
@@ -234,8 +221,8 @@ canvas {
 }
 
 .join-button {
-  color: white;
-  background-color: #00e6e6;
+  /* color: white; */
+  /* background-color: #00e6e6; */
   margin-right: 10px;
 }
 
@@ -255,7 +242,7 @@ canvas {
   border-radius: 5px;
   padding: 5px 15px;
   color: white;
-  background-color: #e600e6;
+  /* background-color: #e600e6; */
   margin: auto;
   opacity: 0;
 }

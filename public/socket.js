@@ -1,5 +1,8 @@
+
+
 let socket = io.connect('/')
 var clock = null;
+
 
 //called when user presses the start button
 function init() {
@@ -16,7 +19,7 @@ function init() {
     zoomOutMobile();
     canvas.width = $(window).width();
     canvas.height = $(window).height();
-    console.log(canvas.width);
+    // console.log(canvas.width);
     draw();
     socket.emit('init', {
         playerName: player.name
@@ -24,6 +27,8 @@ function init() {
 }
 
 socket.on('initReturn', data => {
+    console.log(socket.id);
+
     // console.log(data.orbs);
     orbs = data.orbs;
     player.uid = data.uid;

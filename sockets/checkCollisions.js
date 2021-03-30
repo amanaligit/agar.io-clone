@@ -31,13 +31,13 @@ function checkForOrbCollisions(pData, pConfig, orbs, settings) {
                     } else if (pConfig.speed > 0.005) {
                         pConfig.speed -= 0.005;
                     }
+
                     // we have to keep orbs updated for new players
                     // we just dont want to push them out more than we have to
                     orbs[i] = new Orb(settings);
-                    // orbs.splice(i, 1, new Orb(settings))
+
                     // can't hit more than one orb on a tick so return
                     collisions.push(i);
-                    // resolve(i)
                 }
             }
         });
@@ -81,16 +81,6 @@ function checkForPlayerCollisions(pData, pConfig, players, playerId) {
                             resolve(collisionData);
 
                         }
-                        // else if(pData.radius < pR){           
-                        //     let collisionData = updateScores(curPlayer,pData);
-                        //     players.forEach((p,i)=>{
-                        //         console.log(players[i].name, i)
-                        //         if (pData.uid == p.uid){
-                        //             players.splice(i, 1);
-                        //         }
-                        //     }); 
-                        //     resolve(collisionData);
-                        // }
                     }
                 }
             }
@@ -101,7 +91,7 @@ function checkForPlayerCollisions(pData, pConfig, players, playerId) {
 
 function updateScores(killer, killed) {
     killer.score += (killed.score + 10);
-    killer.playersAbsorbed += 1;
+    killer.playersKilled++;
     killed.alive = false;
     killer.radius += (killed.radius * 0.25)
     return {

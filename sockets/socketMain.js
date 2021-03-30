@@ -1,38 +1,43 @@
 const io = require('../servers').io;
 const checkForOrbCollisions = require('./checkCollisions').checkForOrbCollisions;
 const checkForPlayerCollisions = require('./checkCollisions').checkForPlayerCollisions;
+const settings = require('../gameSettings');
+
 //=====================classes======================
 const Player = require('./classes/Player');
 const PlayerConfig = require('./classes/PlayerConfig');
 const PlayerData = require('./classes/PlayerData');
 const Orb = require('./classes/Orb');
 
+//Database stuff
+const client = require('../database/database');
+const updateQuery = 'INSERT INTO leaderboard(sub, name, orbs_absorbed, players_killed, score) VALUES($1, $2, $3, $4, $5) returning *';
+
 
 let orbs = [];
 let players = [];
 
-let settings = {
-    defaultOrbs: 800,
-    defaultSpeed: 4,
-    defaultSize: 6,
-    defaultZoom: 2,
-    worldWidth: 5000,
-    worldHeight: 5000
-}
 
+
+//initialize the game with the above settings
 initGame()
+
+let PlayerInfo = new Map();
+
 
 //since the game runs at 30fps, we emit this event with all the player data.
 
-
-
 io.sockets.on('connect', socket => {
+    // console.log(done)
     let player = {};
+    player = new Player(socket.id);
+    PlayerInfo.set(socket.id, player);
     socket.on('init', data => {
         socket.join('game');
         let playerConfig = new PlayerConfig(settings);
         let playerData = new PlayerData(data.playerName, settings);
-        player = new Player(socket.id, playerConfig, playerData);
+        player.playerConfig = playerConfig;
+        player.playerData = playerData;
         setInterval(() => {
             // console.log(player.playerData);
             socket.emit('tock', {
@@ -52,7 +57,7 @@ io.sockets.on('connect', socket => {
         // console.log(player);
         if (player.playerConfig && player.playerData.alive) {
             // console.log(player.playerData.name is )
-            //==============M=============ove the player using the vector==============================
+            //===========================move the player using the vector==============================
             speed = player.playerConfig.speed;
             xV = player.playerConfig.xVector = data.xVector;
             yV = player.playerConfig.yVector = data.yVector;
@@ -91,7 +96,7 @@ io.sockets.on('connect', socket => {
             let playerDeath = checkForPlayerCollisions(player.playerData, player.playerConfig, players, player.playerData.uid);
             playerDeath.then(data => {
                 //PlayerCollision!!
-                console.log("player collision happened");
+                // console.log("player collision happened");
                 io.sockets.emit('updateLeaderBoard', getLeaderBoard());
                 io.sockets.emit('playerDeath', data);
             }).catch(() => {
@@ -107,10 +112,31 @@ io.sockets.on('connect', socket => {
                 if (cp.uid === player.playerData.uid)
                     players.splice(i, 1);
             })
+            const values = [player.sub, player.playerData.name, player.playerData.orbsAbsorbed, player.playerData.playersKilled, player.playerData.score];
+            console.log(values);
+            updateLeaderBoard(values);
+
+            //cleanup
+            PlayerInfo.delete(socket.id);
         }
+        console.log(socket.id, 'disconnected');
+
     })
 
 })
+
+function updateLeaderBoard(values) {
+    client.query(updateQuery, values, (err, res) => {
+        if (err) {
+            console.log(err.stack)
+        } else {
+            // console.log(res.rows[0])
+        }
+    })
+}
+
+
+
 
 function getLeaderBoard() {
     players.sort((a, b) => {
@@ -133,4 +159,4 @@ function initGame() {
 }
 
 
-module.exports = io;
+module.exports = { io, PlayerInfo };

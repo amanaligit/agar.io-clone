@@ -2,19 +2,20 @@
 <html>
 
 <head>
+	<script src="https://kit.fontawesome.com/68787ccd85.js" crossorigin="anonymous"></script>
 	<meta name="viewport" user-scalable=0 />
-
-	<title>Agar Clone!</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<title>Socket-Agar! </title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="./styles.css">
+
 </head>
 
 <body>
 
 	<div id="container">
 		<div id="game-field" class="col-sm-12">
-			<canvas id="the-canvas" style="background: url('images/starfield.jpg')">
+			<canvas id="the-canvas">
 				<!-- our drawing will go here -->
 			</canvas>
 			<div id="score-wrapper" class="hiddenOnStart" hidden>
@@ -47,27 +48,35 @@
 	<!-- LOGIN MODAL -->
 	<div id="loginModal" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-lg">
-
 			<!-- Modal content-->
+
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header text-center">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h2 class="modal-title text-center">Agar Clone</h2>
+					<h2 class="col-12 modal-title text-center"><i class="fas fa-disease"></i>
+						Socket-Agar! <i class="fas fa-meteor"></i>
+					</h2>
 				</div>
 				<div class="modal-body">
-					<button type="submit" class="btn play-button btn-github">Login with github</button>
 					<form class="name-form">
 						<div class="text-center error-message"></div>
-						<button type="submit" class="btn play-button play-guest">Play as Guest</button>
 						<input id="name-input" class="text-input text-center form-control" type="text" name="name-input"
 							placeholder="Enter your name here" required>
+						<button type="submit" class="btn  btn-info play-button"><i class="fas fa-user"></i>
+							Play as Guest </button>
 					</form>
+					<br>
+					<h2 class='text-center'> OR </h2>
+					<button type="submit" class="btn btn-primary play-button" onclick="login()" id="btn-login"><i
+							class="fas fa-sign-in-alt"></i>
+						Login</button>
 				</div>
-				<div class="modal-footer">
+				<div class="modal-footer justify-content-start">
 					<div id="instructions">
 						<label id="how-to-play">How to play:</label>
 						<ul>
-							<li>Move your mouse on the screen to move your character.</li>
+							<li>Move your mouse on the screen to move your character.
+							</li>
 							<li>Absorb orbs by running over them in order to grow your character.</li>
 							<li>The larger you get the slower you are.</li>
 							<li>Objective: Absorb other players to get even larger but not lose speed.</li>
@@ -86,7 +95,8 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h2 class="modal-title text-center">Game Over!</h2>
+					<h2 class="col-12 modal-title text-center"><i class="fas fa-skull-crossbones"></i>
+						Game Over!</h2>
 				</div>
 				<div class="modal-body">
 					<div class="row">
@@ -106,10 +116,102 @@
 							<h3 id="killed-by-dialog"></h3>
 						</div>
 					</div>
-					<button type="submit" class="btn play-button play-guest start-game">Play Again</button>
+					<button type="submit" class="btn play-button play-guest start-game"><i class="fas fa-redo"></i>
+						Play Again</button>
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div id="stats-modal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-lg">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+					<button onclick="back()" clas="btn btn-light"><i class="fas fa-backspace"></i>
+						Back</button>
+					<h2 class="col-12 modal-title "><i class="fas fa-signal"></i>
+						Your Stats</h2>
+
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<h3>Name: </h3>
+						</div>
+						<div class="col-md-6">
+							<h3 id="stats-name"></h3>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<h3>Max Score: </h3>
+						</div>
+						<div class="col-md-6">
+							<h3 id="stats-score"></h3>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<h3>Total Kills: </h3>
+						</div>
+						<div class="col-md-6">
+							<h3 id="stats-kills"></h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<h3>Total Orbs Absorbed: </h3>
+						</div>
+						<div class="col-md-6">
+							<h3 id="stats-orbs"></h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="leaderboard-modal" class="modal fade" role="dialog" style="overflow: auto">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+					<button onclick="back()" clas="btn btn-light"><i class="fas fa-backspace"></i>
+						Back</button>
+
+					<h2 class="col-12 modal-title ">Leaderboard <i class="fas fa-sort-numeric-down"></i></h2>
+
+				</div>
+				<div class="modal-body">
+					<table class="table" id="lb-table">
+						<thead class="thead-dark" style="background-color: #6200EE; color: white;">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Name</th>
+								<th scope="col" id='by-score'><i class="fas fa-gamepad"></i>
+									Score <i class="fa fa-angle-down" aria-hidden="true"></i>
+								</th>
+								<th scope="col" id='by-orbs'><i class="fas fa-circle"></i>
+									Orbs Consumed <i class="fa fa-angle-down" aria-hidden="true"></i></th>
+								<th scope="col" id='by-players'><i class="fas fa-skull-crossbones"></i>
+									Players Killed <i class="fa fa-angle-down" aria-hidden="true"></i></th>
+							</tr>
+						</thead>
+						<tbody id="lb-body">
+							<!-- filled by JS -->
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
 	</div>
 
 	<!-- START MODAL -->
@@ -118,23 +220,35 @@
 
 			<!-- Modal content-->
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header text-center">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h2 class="modal-title text-center">Agar Clone</h2>
+					<h2 class="modal-title col-12"><i class="fas fa-disease"></i>
+						Socket-Agar! <i class="fas fa-meteor"></i></h2>
 				</div>
 				<div class="modal-body">
 					<h3 class="text-center">Hello, <span class="player-name"></span>!</h3>
-					<div class="play-btn-wrapper">
-						<button id="join-team-btn" type="button" class="btn play-button">Join a Team!</button>
-						<button id="play-solo-btn" type="button" class="btn play-button start-game">Play
-							Solo!</button>
-					</div>
-					<div class="stats-btn-wrapper">
-						<button type="button" class="btn stats-btn player-stats-btn">See your stats</button>
-						<button type="button" class="btn stats-btn all-stats-btn">See all stats</button>
-					</div>
+					<!-- <button id="join-team-btn" type="button" class="btn play-button">Join a Team!</button> -->
+					<button id="play-solo-btn" type="button" class="btn play-button btn-primary start-game "
+						id="start-game"><i class="fas fa-play"></i>
+						Play Game</button>
+
+					<button id="show-leaderboard" type="button" class="btn play-button btn-info "
+						onclick="showLeaderboard()">
+						<i class="fas fa-sort-numeric-down"></i>
+						Show Leaderboard
+					</button>
+					<button id="show-stats" type="button" class="btn play-button btn-info " onclick="showStats()"
+						style="display:none;">
+						<i class="fas fa-signal"></i>
+						Show my stats
+					</button>
+					<button id="logout-btn" type="button" onclick="logout()" class="btn play-button btn-danger"><i
+							class="fas fa-sign-out-alt"></i>
+						Logout
+					</button>
 				</div>
-				<div class="modal-footer">
+
+				<div class="modal-footer justify-content-start">
 					<div id="instructions">
 						<label id="how-to-play">How to play:</label>
 						<ul>
@@ -149,10 +263,10 @@
 			</div>
 		</div>
 	</div>
-
+	<script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+		integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
 	</script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="ui.js"></script>

@@ -12,6 +12,7 @@ class PlayerData {
         this.score = 0;
         this.orbsAbsorbed = 0;
         this.alive = true;
+        this.playersKilled = 0;
     }
     getRandomColor() {
         const r = Math.floor(Math.random() * 200 + 50);
