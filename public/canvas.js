@@ -5,8 +5,7 @@
 
 var background = new Image();
 background.src = "images/starfield.jpg";
-background.onload = function () {
-}
+
 
 
 // player.locX = Math.floor(500 * Math.random() + 100)
@@ -27,7 +26,7 @@ function draw() {
     context.translate(camX, camy);
 
     // console.log(player.locX, player.locY);
-    context.drawImage(background, 0, 0);
+    // context.drawImage(background, 0, 0);
     // context.drawImage(background, player.locX, player.locY, 100, 100, camX, camy, 100, 100);
 
     //translate helps us to move the canvas around
