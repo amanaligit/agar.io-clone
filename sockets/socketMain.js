@@ -125,14 +125,15 @@ io.sockets.on('connect', socket => {
 
 })
 
-function updateLeaderBoard(values) {
-    client.query(updateQuery, values, (err, res) => {
+async function updateLeaderBoard(values) {
+    await client.query(updateQuery, values, (err, res) => {
         if (err) {
             console.log(err.stack)
         } else {
             // console.log(res.rows[0])
         }
-    })
+    });
+    console.log("updated");
 }
 
 
