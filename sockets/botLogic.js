@@ -44,10 +44,9 @@ function moveBots(bots, players, orbs) {
         let xVector = 0;
         let yVector = 0;
         orbs.forEach((orb, i) => {
-            const dist = Math.sqrt(
-                ((bot.playerData.locX - orb.locX) * (bot.playerData.locX - orb.locX)) +
-                ((bot.playerData.locY - orb.locY) * (bot.playerData.locY - orb.locY))
-            );
+            const dist =
+                Math.abs(bot.playerData.locX - orb.locX) +
+                Math.abs(bot.playerData.locY - orb.locY)
             if (dist <= minDist) {
                 minDist = dist;
                 const mousePosition = {
