@@ -42,7 +42,6 @@ function draw() {
 }
 
 canvas.addEventListener('mousemove', (event) => {
-    // console.log(event)
     const mousePosition = {
         x: event.clientX,
         y: event.clientY
@@ -66,8 +65,6 @@ canvas.addEventListener('mousemove', (event) => {
 })
 
 canvas.addEventListener('touchmove', (event) => {
-    // console.log(event)
-    // event.preventDefault();
     const mousePosition = {
         x: event.touches[0].clientX,
         y: event.touches[0].clientY

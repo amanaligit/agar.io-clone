@@ -77,9 +77,9 @@ function checkForPlayerCollisions(pData, pConfig, players, playerId) {
                             }
                             //  = false;
                             curPlayer.alive = false;
+
                             players.splice(i, 1);
                             resolve(collisionData);
-
                         }
                     }
                 }

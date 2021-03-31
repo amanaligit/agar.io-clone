@@ -19,22 +19,29 @@ label {
   display: block;
 }
 
-.modal {
-  width: 100%;
+#leader-board-wrapper {
+  min-width: 160px;
+  background-color: #800000;
+  color: white;
+  font-size: 18px;
+  opacity: 0.7;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 5px;
 }
 
-@media screen and (max-width: 767px) {
-  input[type="text"],
-  input[type="number"],
-  input[type="email"],
-  input[type="tel"],
-  input[type="password"] {
-    font-size: 16px;
-  }
-}
-
-.close {
-  display: none;
+#quit-btn {
+  min-width: 160px;
+  background-color: #800000;
+  color: white;
+  font-size: 2rem;
+  opacity: 0.7;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 #score-wrapper {
@@ -50,25 +57,52 @@ label {
   border-radius: 5px;
 }
 
-#leader-board-wrapper {
-  min-width: 160px;
-  background-color: #800000;
-  color: white;
-  font-size: 18px;
-  opacity: 0.7;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  border-radius: 5px;
-}
-
 #leader-board {
-  padding: 5px;
+  padding: 1rem;
 }
 
 #sort-wrapper {
   margin-top: -20px;
   font-size: 14px;
+}
+
+@media screen and (max-width: 1000px) {
+  .modal button {
+    font-size: 3.5rem !important;
+  }
+  .modal h2 {
+    font-size: 4rem;
+  }
+  .modal h3 {
+    font-size: 3rem;
+    /* color: rgb(85, 124, 255); */
+  }
+  .modal h4 {
+    font-size: 2.5rem;
+  }
+  ul {
+    font-size: 2.2rem !important;
+  }
+  label {
+    font-size: 2.2rem !important;
+  }
+
+  input[type="text"] {
+    font-size: 2.2rem;
+  }
+
+  table {
+    font-size: 1.6rem !important;
+  }
+
+  .modal-dialog {
+    width: 90%;
+    max-width: 90%;
+  }
+}
+
+.close {
+  display: none;
 }
 
 .sort-option {

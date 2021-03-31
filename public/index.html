@@ -4,6 +4,7 @@
 <head>
 	<script src="https://kit.fontawesome.com/68787ccd85.js" crossorigin="anonymous"></script>
 	<meta name="viewport" user-scalable=0 />
+
 	<title>Socket-Agar! </title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -23,7 +24,7 @@
 			</div>
 			<div id="leader-board-wrapper" class="hiddenOnStart" hidden>
 				<div id="leader-board">
-					<h3 class="text-center">Leaders</h3>
+					<h3 class="text-center" id="leader-heading">Leaders</h3>
 					<hr>
 					<ol class="leader-board">
 						<li class="leaderboard-player"></li>
@@ -36,6 +37,9 @@
 					<div id="sort-orbs" class="sort-option">Orbs</div>
 					<div id="sort-players" class="sort-option">Players</div>
 				</div>
+			</div>
+			<div id="quit-btn" class="hiddenOnStart" hidden>
+				<i class="fas fa-window-close"></i> Quit Game
 			</div>
 			<div id="game-message-wrapper">
 				<div id="game-message"></div>
@@ -116,6 +120,23 @@
 							<h3 id="killed-by-dialog"></h3>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<h3>Orbs Absorbed: </h3>
+						</div>
+						<div class="col-md-6">
+							<h3 id="orbs-dialog"></h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<h3>Players Killed: </h3>
+						</div>
+						<div class="col-md-6">
+							<h3 id="players-dialog"></h3>
+						</div>
+					</div>
+
 					<button type="submit" class="btn play-button play-guest start-game"><i class="fas fa-redo"></i>
 						Play Again</button>
 				</div>
@@ -137,38 +158,38 @@
 
 				</div>
 				<div class="modal-body">
-					<div class="row">
-						<div class="col-md-6">
-							<h3>Name: </h3>
+					<div class="row justify-content-center">
+						<div class="col-md-6 justify-content-center">
+							<h4>Name: </h4>
 						</div>
 						<div class="col-md-6">
-							<h3 id="stats-name"></h3>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-6">
-							<h3>Max Score: </h3>
-						</div>
-						<div class="col-md-6">
-							<h3 id="stats-score"></h3>
+							<h4 id="stats-name"></h4>
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="col-md-6">
-							<h3>Total Kills: </h3>
+							<h4>Max Score: </h4>
 						</div>
 						<div class="col-md-6">
-							<h3 id="stats-kills"></h3>
+							<h4 id="stats-score"></h4>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<h4>Total Kills: </h4>
+						</div>
+						<div class="col-md-6">
+							<h4 id="stats-kills"></h4>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">
-							<h3>Total Orbs Absorbed: </h3>
+							<h4>Total Orbs Absorbed: </h4>
 						</div>
 						<div class="col-md-6">
-							<h3 id="stats-orbs"></h3>
+							<h4 id="stats-orbs"></h4>
 						</div>
 					</div>
 				</div>
@@ -268,6 +289,7 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
 		integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
 	</script>
+	<script src="auth.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="ui.js"></script>
 	<script src="canvas.js"></script>

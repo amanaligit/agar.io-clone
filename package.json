@@ -14,14 +14,10 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
-    "express-jwt-authz": "^2.4.1",
     "helmet": "^4.4.1",
     "jwks-rsa": "^2.0.2",
     "pg": "^8.5.1",
     "socket.io": "^4.0.0",
-    "socketio-jwt": "^4.6.2",
-    "socketio-jwt-auth": "^0.2.1",
-    "uuid": "^8.3.2",
-    "uuidv4": "^6.2.6"
+    "uuid": "^8.3.2"
   }
 }

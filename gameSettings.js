@@ -1,8 +1,11 @@
+
+//DEFAULT game settings, can be modified from heroku;
+
 module.exports = {
-    defaultOrbs: 800,
-    defaultSpeed: 3,
-    defaultSize: 6,
-    defaultZoom: 2,
-    worldWidth: 5000,
-    worldHeight: 5000
+    defaultOrbs: 200 || process.env.DEFAULT_ORBS,
+    defaultSpeed: 3 || process.env.DEFAULT_SPEED,
+    defaultSize: 6 || process.env.DEFAULT_SIZE,
+    defaultZoom: 2 || process.env.DEFAULT_ZOOM,
+    worldWidth: 1000 || process.env.WORLD_WIDTH,
+    worldHeight: 1000 || process.env.WORLD_HEIGHT
 }

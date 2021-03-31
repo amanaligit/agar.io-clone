@@ -1,7 +1,6 @@
 const app = require('../servers').app;
 
 const jwt = require('express-jwt');
-const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
 const bodyParser = require('body-parser');
 
@@ -28,7 +27,7 @@ const checkJwt = jwt({
 
 app.get('/leaderboard', async (req, res) => {
     try {
-        const result = await client.query('SELECT name, score, players_killed, orbs_absorbed FROM leaderboard order by score desc');
+        const result = await client.query('SELECT name, score, players_killed, orbs_absorbed FROM leaderboard order by score desc limit 20');
         const results = { 'results': (result) ? result.rows : null };
         res.status(200).send(results);
     } catch (err) {
@@ -37,18 +36,17 @@ app.get('/leaderboard', async (req, res) => {
     }
 })
 
-// This route needs authentication
+// This route needs authentication via JWT to login
 app.post('/login', checkJwt, function (req, res) {
     const player = PlayerInfo.get(req.body.socketId);
     player.sub = req.user?.sub;
     res.status(200).send();
 });
 
+//this route needs authentication because guests cant view their stats 
 app.get('/stats', checkJwt, async (req, res) => {
     try {
-        console.log(req.user.sub);
         const result = await (await client.query(`select max(score) as "maxScore", sum(orbs_absorbed) as "sumOrbs" ,sum(players_killed) as "sumPlayers"  from leaderboard where sub ='${req.user.sub}'`)).rows?.[0];
-        // console.log(result);
         res.status(200).send(result);
     } catch (err) {
         console.error(err);
