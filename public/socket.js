@@ -74,7 +74,7 @@ socket.on('updateLeaderBoard', data => {
             player.score = p.score;
         }
     })
-    lb.slice(0, 5);
+    lb = lb.slice(0, 5);
     displayLB();
 })
 
