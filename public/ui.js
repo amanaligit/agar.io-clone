@@ -106,10 +106,9 @@ async function showStats() {
     document.getElementById('stats-orbs').innerHTML = stats.sumOrbs;
 }
 
-document.getElementById('quit-btn').addEventListener("click", () => {
+function quit() {
     location.reload();
-
-})
+}
 
 document.getElementById('sort-score').addEventListener('click', function () {
     document.getElementById('sort-orbs').classList.remove('active');
