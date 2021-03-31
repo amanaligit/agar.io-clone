@@ -1,4 +1,4 @@
-const settings = require('../gameSettings');
+const settings = require('../botSettings');
 const axios = require('axios');
 
 //=====================classes======================

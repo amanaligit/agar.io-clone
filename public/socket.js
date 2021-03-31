@@ -66,6 +66,15 @@ socket.on('orbSwitch', data => {
 
 socket.on('updateLeaderBoard', data => {
     lb = data;
+    lb.forEach(p => {
+        if (p.name === player.name) {
+            document.querySelector('.player-score').innerHTML = player.score;
+            player.orbsAbsorbed = p.orbsAbsorbed;
+            player.playersKilled = p.playersKilled;
+            player.score = p.score;
+        }
+    })
+    lb.slice(0, 5);
     displayLB();
 })
 
@@ -81,17 +90,10 @@ function displayLB() {
         by = 'playersKilled';
     }
     let lb_element = document.querySelector('.leader-board');
-    let pl = document.querySelector('.player-score');
     lb_element.innerHTML = "";
     lb.sort((a, b) => b[by] - a[by]);
     lb.forEach(p => {
         lb_element.innerHTML += `<li class="leaderboard-player">${p.name} - ${p[by]}</li>`
-        if (p.name === player.name) {
-            pl.innerHTML = p.score;
-            player.orbsAbsorbed = p.orbsAbsorbed;
-            player.playersKilled = p.playersKilled;
-            player.score = p.score;
-        }
     })
 }
 
