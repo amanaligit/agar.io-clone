@@ -49,7 +49,7 @@ socket.on('tock', data => {
     player.locY = data.playerY;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         // true for mobile device
-        player.zoom = 2 * data.zoom;
+        player.zoom = 2.4 * data.zoom;
     } else {
         // false for not mobile device
         player.zoom = data.zoom;
