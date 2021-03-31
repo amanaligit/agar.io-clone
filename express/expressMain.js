@@ -9,7 +9,7 @@ const audience = "https://agario-clone-aman.herokuapp.com/";
 const domain = "dev-earqz191.us.auth0.com";
 
 
-const { PlayerInfo } = require('../sockets/socketMain');
+const { playerInfo } = require('../sockets/socketMain');
 const client = require('../database/database')
 
 app.use(bodyParser.json());
@@ -38,7 +38,7 @@ app.get('/leaderboard', async (req, res) => {
 
 // This route needs authentication via JWT to login
 app.post('/login', checkJwt, function (req, res) {
-    const player = PlayerInfo.get(req.body.socketId);
+    const player = playerInfo.get(req.body.socketId);
     player.sub = req.user?.sub;
     res.status(200).send();
 });

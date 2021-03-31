@@ -4,7 +4,6 @@ class Player {
         // this.playerConfig = playerConfig;
         // this.playerData = playerData;
         this.sub = null;
-
     }
 }
 

@@ -104,7 +104,7 @@ socket.on('playerDeath', data => {
     $('#game-message').show();
     $('#game-message').fadeOut(5000);
     if (player.uid === data.died.uid) {
-        console.log(player);
+        // console.log(player);
         $('#game-over-modal').modal('show');
         document.querySelector('#killed-by-dialog').innerHTML = data.killedBy.name;
         document.querySelector('#score-dialog').innerHTML = document.querySelector('.player-score').innerHTML;

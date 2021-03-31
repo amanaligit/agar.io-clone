@@ -65,6 +65,7 @@ canvas.addEventListener('mousemove', (event) => {
 })
 
 canvas.addEventListener('touchmove', (event) => {
+
     const mousePosition = {
         x: event.touches[0].clientX,
         y: event.touches[0].clientY

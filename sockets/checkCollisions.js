@@ -1,5 +1,6 @@
 const Orb = require('./classes/Orb')
 const io = require('../servers').io;
+const { pushBot } = require('./botLogic')
 
 function checkForOrbCollisions(pData, pConfig, orbs, settings) {
     return new Promise((resolve, reject) => {
@@ -48,7 +49,7 @@ function checkForOrbCollisions(pData, pConfig, orbs, settings) {
     });
 }
 
-function checkForPlayerCollisions(pData, pConfig, players, playerId) {
+function checkForPlayerCollisions(pData, pConfig, players, playerId, bots, playerInfo) {
     return new Promise((resolve, reject) => {
         //PLAYER COLLISIONS	
         players.forEach((curPlayer, i) => {
@@ -77,8 +78,22 @@ function checkForPlayerCollisions(pData, pConfig, players, playerId) {
                             }
                             //  = false;
                             curPlayer.alive = false;
+                            let del = null;
 
+                            //check if the dying player was a bot;
+                            if (playerInfo.delete(players[i].uid)) {
+                                bots.forEach((bot, j) => {
+                                    if (bot.playerData.uid === players[i].uid) {
+                                        del = j;
+                                    }
+                                })
+                                if (del != null) {
+                                    bots.splice(del, 1);
+                                    pushBot(bots, players, playerInfo);
+                                }
+                            }
                             players.splice(i, 1);
+                            //check if player was a bot:
                             resolve(collisionData);
                         }
                     }

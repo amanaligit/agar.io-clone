@@ -7,17 +7,18 @@ const settings = require('../gameSettings');
 const Player = require('./classes/Player');
 const PlayerConfig = require('./classes/PlayerConfig');
 const PlayerData = require('./classes/PlayerData');
-const Orb = require('./classes/Orb');
+const Orb = require('./classes/Orb')
 
 //Database stuff
 const client = require('../database/database');
 const updateQuery = 'INSERT INTO leaderboard(sub, name, orbs_absorbed, players_killed, score) VALUES($1, $2, $3, $4, $5) returning *';
+const { initiateBots, moveBots } = require('./botLogic');
 
 //In memory data
 let orbs = [];
 let players = [];
-
-
+let bots = [];
+let numPlayers = 0;
 
 //initialize the game with the above settings
 initGame()
@@ -25,13 +26,69 @@ initGame()
 let playerInfo = new Map();
 
 
+//internal clock of the server
+setInterval(() => {
+    moveBots(bots, players, orbs);
+    for (let [id, player] of playerInfo) {
+        if (player.playerData) {
+            let capturedOrb = checkForOrbCollisions(player.playerData, player.playerConfig, orbs, settings);
+            capturedOrb.then(indices => {
+                //if reolve happens then a collision happened!
+                const newOrbs = [];
+                indices.forEach(i => {
+                    newOrbs.push(orbs[i]);
+                })
+
+                //emit to all sockets the orbs to be replaced
+                const orbData = {
+                    orbIndices: indices,
+                    newOrbs
+                }
+
+                //Updating the Leaderboard
+                io.sockets.emit('updateLeaderBoard', getLeaderBoard());
+                io.sockets.emit('orbSwitch', orbData);
+            }).catch(() => {
+                //catch runs if reject runs
+            })
+            //Player collisions
+            let playerDeath = checkForPlayerCollisions(player.playerData, player.playerConfig, players, player.playerData.uid, bots, playerInfo);
+            playerDeath.then(data => {
+                //PlayerCollision!!
+                for (let [id, player] of playerInfo) {
+                    if (player.playerData?.uid === data.died.uid) {
+                        const values = [player.sub, player.playerData.name, player.playerData.orbsAbsorbed, player.playerData.playersKilled, player.playerData.score];
+                        updateLeaderBoard(values);
+                        player.playerData = null;
+                        player.PlayerConfig = null;
+                    }
+                }
+                io.sockets.emit('updateLeaderBoard', getLeaderBoard());
+                io.sockets.emit('playerDeath', data);
+            }).catch(() => {
+                //No player collision
+            })
+        }
+    }
+}, 16);
+
+
+
 //since the game runs at 30fps, we emit this event with all the player data.
 
 io.sockets.on('connect', socket => {
+    if (numPlayers === 0) {
+        // console.log(players);
+        initiateBots(bots, players, playerInfo);
+        // console.log(bots);
+    }
+    numPlayers++;
     let player = {};
     player = new Player(socket.id);
     playerInfo.set(socket.id, player);
     socket.on('init', data => {
+        // console.log(numPlayers);
+        // console.log(numPlayers)
         socket.join('game');
         let playerConfig = new PlayerConfig(settings);
         let playerData = new PlayerData(data.playerName, settings);
@@ -39,51 +96,12 @@ io.sockets.on('connect', socket => {
         player.playerData = playerData;
         setInterval(() => {
             if (player.playerData) {
-
                 socket.emit('tock', {
                     players,
                     playerX: player.playerData.locX,
                     playerY: player.playerData.locY,
                     zoom: player.playerConfig.zoom
                 });
-
-                let capturedOrb = checkForOrbCollisions(player.playerData, player.playerConfig, orbs, settings);
-                capturedOrb.then(indices => {
-                    //if reolve happens then a collision happened!
-                    const newOrbs = [];
-                    indices.forEach(i => {
-                        newOrbs.push(orbs[i]);
-                    })
-
-                    //emit to all sockets the orb to be replaced
-                    const orbData = {
-                        orbIndices: indices,
-                        newOrbs
-                    }
-
-                    //Updating the Leaderboard
-                    io.sockets.emit('updateLeaderBoard', getLeaderBoard());
-                    io.sockets.emit('orbSwitch', orbData);
-                }).catch(() => {
-                    //catch runs if reject runs
-                })
-                //Player collisions
-                let playerDeath = checkForPlayerCollisions(player.playerData, player.playerConfig, players, player.playerData.uid);
-                playerDeath.then(data => {
-                    //PlayerCollision!!
-                    for (let [id, player] of playerInfo) {
-                        if (player.playerData?.uid === data.died.uid) {
-                            const values = [player.sub, player.playerData.name, player.playerData.orbsAbsorbed, player.playerData.playersKilled, player.playerData.score];
-                            updateLeaderBoard(values);
-                            player.playerData = null;
-                            player.PlayerConfig = null;
-                        }
-                    }
-                    io.sockets.emit('updateLeaderBoard', getLeaderBoard());
-                    io.sockets.emit('playerDeath', data);
-                }).catch(() => {
-                    //No player collision
-                })
             }
         }, 16);
         socket.emit('initReturn', { orbs, uid: player.playerData.uid });
@@ -111,6 +129,14 @@ io.sockets.on('connect', socket => {
     })
     socket.on('disconnect', data => {
         //find out who just left!
+        numPlayers--;
+        if (numPlayers == 0) {
+            //reset all data to save computational power on server
+            console.log('resetting');
+            bots = [];
+            players = [];
+            playerInfo = new Map();
+        }
         if (player.playerData) {
             players.forEach((cp, i) => {
                 if (cp.uid === player.playerData.uid)
@@ -161,4 +187,4 @@ function initGame() {
 }
 
 
-module.exports = { io, PlayerInfo: playerInfo };
+module.exports = { io, playerInfo };
