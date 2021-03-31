@@ -176,7 +176,7 @@ function getLeaderBoard() {
             orbsAbsorbed: curplayer.orbsAbsorbed
         }
     })
-    return leaderBoard;
+    return leaderBoard.slice(0, 5);
 }
 
 //run at the beginning of a new game
