@@ -2,6 +2,8 @@
 
 # Online Multiplayer Game
 
+# deployed @ https://agario-clone-aman.herokuapp.com/
+
 Tech used: Frontend: Javascript, Backend: NodeJS, Express, SocketIO for real time communication b/w players and the server.
 
 To install:
