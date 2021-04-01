@@ -9,12 +9,12 @@ const PlayerData = require('./classes/PlayerData');
 
 
 async function initiateBots(bots, players, playerInfo) {
-    const names_dat = await axios.get(`http://names.drycodes.com/${settings.numBots}`)
-    const names = names_dat.data;
     for (i = 0; i < settings.numBots; i++) {
+        const name_dat = await axios.get("https://api.namefake.com/");
+        const name = name_dat.data.name;
         const bot = new Player(null);
         let botConfig = new PlayerConfig(settings);
-        let botData = new PlayerData(names[i], settings);
+        let botData = new PlayerData(name, settings);
         bot.playerConfig = botConfig;
         bot.playerData = botData;
         players.push(botData);
@@ -25,8 +25,8 @@ async function initiateBots(bots, players, playerInfo) {
 
 async function pushBot(bots, players, playerInfo) {
     // console.log("pushing bot")
-    const name_dat = await axios.get(`http://names.drycodes.com/1`)
-    const name = name_dat.data[0];
+    const name_dat = await axios.get("https://api.namefake.com/");
+    const name = name_dat.data.name;
     const bot = new Player(null);
     let botConfig = new PlayerConfig(settings);
     let botData = new PlayerData(name, settings);
