@@ -1,6 +1,7 @@
 const Orb = require('./classes/Orb')
 const io = require('../servers').io;
 const { pushBot } = require('./botLogic')
+const settings = require('../gameSettings');
 
 function checkForOrbCollisions(pData, pConfig, orbs, settings) {
     return new Promise((resolve, reject) => {
@@ -26,9 +27,9 @@ function checkForOrbCollisions(pData, pConfig, orbs, settings) {
                         pConfig.zoom -= .008;
                     }
                     pData.radius += 0.25;
-                    if (pConfig.speed <= 0.05) {
+                    if (pConfig.speed <= (settings.minSpeed)) {
                         pConfig.speed += 0.005;
-                    } else if (pConfig.speed > 0.05) {
+                    } else {
                         pConfig.speed -= 0.005;
                     }
 
