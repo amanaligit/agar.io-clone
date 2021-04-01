@@ -26,9 +26,9 @@ function checkForOrbCollisions(pData, pConfig, orbs, settings) {
                         pConfig.zoom -= .008;
                     }
                     pData.radius += 0.25;
-                    if (pConfig.speed <= 0.005) {
+                    if (pConfig.speed <= 0.05) {
                         pConfig.speed += 0.005;
-                    } else if (pConfig.speed > 0.005) {
+                    } else if (pConfig.speed > 0.05) {
                         pConfig.speed -= 0.005;
                     }
 

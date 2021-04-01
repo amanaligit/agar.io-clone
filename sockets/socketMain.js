@@ -72,7 +72,7 @@ setInterval(() => {
 
             //remove bots that have gotten too big!
             //if this is true, player is a bot!
-            if (playerInfo.get(player.playerData.uid) && player.playerData.score > (process.env.MAX_BOT_SCORE || 5000)) {
+            if (playerInfo.get(player.playerData.uid) && player.playerData.score > (parseInt(process.env.MAX_BOT_SCORE) || 5000)) {
                 //delete the bot from the memory
                 playerInfo.delete(player.playerData.uid);
                 bots.forEach((bot, j) => {
