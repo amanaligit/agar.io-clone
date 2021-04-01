@@ -151,7 +151,7 @@ io.sockets.on('connect', socket => {
 
             //delete all bots
             bots.forEach(bot => {
-                playerInfo.delete(bot.uid);
+                playerInfo.delete(bot.playerData.uid);
             })
             bots = [];
 
