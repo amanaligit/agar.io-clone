@@ -7,5 +7,5 @@ module.exports = {
     defaultZoom: parseInt(process.env.DEFAULT_ZOOM) || 2,
     worldWidth: parseInt(process.env.WORLD_WIDTH) || 1000,
     worldHeight: parseInt(process.env.WORLD_HEIGHT) || 1000,
-    numBots: parseInt(process.env.NUM_BOTS) || 10
+    numBots: parseInt(process.env.NUM_BOTS) || 20
 }
