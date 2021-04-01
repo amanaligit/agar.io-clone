@@ -10,7 +10,7 @@ const PlayerData = require('./classes/PlayerData');
 
 async function initiateBots(bots, players, playerInfo) {
     for (i = 0; i < settings.numBots; i++) {
-        const name_dat = await axios.get("https://api.namefake.com/");
+        const name_dat = await axios.get(`https://api.namefake.com/`)
         const name = name_dat.data.name;
         const bot = new Player(null);
         let botConfig = new PlayerConfig(settings);
@@ -25,7 +25,7 @@ async function initiateBots(bots, players, playerInfo) {
 
 async function pushBot(bots, players, playerInfo) {
     // console.log("pushing bot")
-    const name_dat = await axios.get("https://api.namefake.com/");
+    const name_dat = await axios.get(`https://api.namefake.com/`)
     const name = name_dat.data.name;
     const bot = new Player(null);
     let botConfig = new PlayerConfig(settings);

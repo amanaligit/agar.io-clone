@@ -25,7 +25,6 @@ function init() {
     });
 }
 
-
 socket.on('initReturn', data => {
     orbs = data.orbs;
     player.uid = data.uid;

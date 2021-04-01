@@ -78,13 +78,17 @@ setInterval(() => {
 
 io.sockets.on('connect', socket => {
     if (numPlayers === 0) {
+        // console.log(players);
         initiateBots(bots, players, playerInfo);
+        // console.log(bots);
     }
     numPlayers++;
     let player = {};
     player = new Player(socket.id);
     playerInfo.set(socket.id, player);
     socket.on('init', data => {
+        // console.log(numPlayers);
+        // console.log(numPlayers)
         socket.join('game');
         let playerConfig = new PlayerConfig(settings);
         let playerData = new PlayerData(data.playerName, settings);

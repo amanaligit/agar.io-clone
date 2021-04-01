@@ -56,13 +56,16 @@ const updateUI = async () => {
         $("#spawnModal").modal('show');
         document.querySelector('#logout-btn').style.display = "block";
         document.querySelector('#show-stats').style.display = "block";
+        const token = await auth0.getTokenSilently();
         const user = await auth0.getUser();
 
         player.name = user.name;
         document.querySelector(".player-name").innerHTML = player.name;
         $('#loginModal').modal('hide');
         $("#spawnModal").modal('show');
-        const token = await auth0.getTokenSilently();
+
+        // Make the call to the API, setting the token
+        // in the Authorization header
         const response = await fetch("/login", {
             method: 'POST',
             headers: {
@@ -71,9 +74,6 @@ const updateUI = async () => {
             },
             body: JSON.stringify({ socketId: socket.id, name: user.name })
         });
-        // Make the call to the API, setting the token
-        // in the Authorization header
-
     } else {
         //...
     }
