@@ -9,12 +9,12 @@ const PlayerData = require('./classes/PlayerData');
 
 
 async function initiateBots(bots, players, playerInfo) {
+    const name_dat = await axios.get(`https://randomuser.me/api/?results=${settings.numBots}`)
+    const name = name_dat.data.results;
     for (i = 0; i < settings.numBots; i++) {
-        const name_dat = await axios.get(`https://api.namefake.com/`)
-        const name = name_dat.data.name;
         const bot = new Player(null);
         let botConfig = new PlayerConfig(settings);
-        let botData = new PlayerData(name, settings);
+        let botData = new PlayerData(name[i].login.username, settings);
         bot.playerConfig = botConfig;
         bot.playerData = botData;
         players.push(botData);
@@ -25,11 +25,11 @@ async function initiateBots(bots, players, playerInfo) {
 
 async function pushBot(bots, players, playerInfo) {
     // console.log("pushing bot")
-    const name_dat = await axios.get(`https://api.namefake.com/`)
-    const name = name_dat.data.name;
+    const name_dat = await axios.get(`https://randomuser.me/api/`)
+    const name = name_dat.data.results;
     const bot = new Player(null);
     let botConfig = new PlayerConfig(settings);
-    let botData = new PlayerData(name, settings);
+    let botData = new PlayerData(name[0].login.username, settings);
     bot.playerConfig = botConfig;
     bot.playerData = botData;
     players.push(botData);
