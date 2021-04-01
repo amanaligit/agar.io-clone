@@ -3,7 +3,7 @@
 
 module.exports = {
     defaultOrbs: parseInt(process.env.DEFAULT_ORBS) || 10,
-    defaultSpeed: parseInt(process.env.DEFAULT_SPEED) || 3,
+    defaultSpeed: parseFloat(process.env.DEFAULT_SPEED) || 3,
     defaultSize: parseInt(process.env.DEFAULT_SIZE) || 6,
     defaultZoom: parseInt(process.env.DEFAULT_ZOOM) || 2,
     worldWidth: parseInt(process.env.WORLD_WIDTH) || 1000,
