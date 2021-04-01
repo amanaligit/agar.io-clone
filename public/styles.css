@@ -41,7 +41,6 @@ label {
   bottom: 10px;
   right: 10px;
   border-radius: 5px;
-  cursor: pointer;
 }
 
 #score-wrapper {
@@ -266,7 +265,8 @@ canvas {
 
 #game-message-wrapper {
   position: fixed;
-  width: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
   bottom: 20px;
 }
 
