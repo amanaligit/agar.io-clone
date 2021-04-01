@@ -5,36 +5,38 @@ const axios = require('axios');
 const Player = require('./classes/Player');
 const PlayerConfig = require('./classes/PlayerConfig');
 const PlayerData = require('./classes/PlayerData');
+const namesFromAPI = axios.get(`https://randomuser.me/api/?results=${settings.numBots}`)
 
 
 
 async function initiateBots(bots, players, playerInfo) {
-    const name_dat = await axios.get(`https://randomuser.me/api/?results=${settings.numBots}`)
-    const name = name_dat.data.results;
-    for (i = 0; i < settings.numBots; i++) {
+    namesFromAPI.then(name_dat => {
+        const name = name_dat.data.results;
+        for (i = 0; i < settings.numBots; i++) {
+            const bot = new Player(null);
+            let botConfig = new PlayerConfig(settings);
+            let botData = new PlayerData(name[i].login.username, settings);
+            bot.playerConfig = botConfig;
+            bot.playerData = botData;
+            players.push(botData);
+            bots.push(bot);
+            playerInfo.set(bot.playerData.uid, bot);
+        }
+    })
+}
+
+async function pushBot(bots, players, playerInfo) {
+    namesFromAPI.then(name_dat => {
+        const name = name_dat.data.results;
         const bot = new Player(null);
         let botConfig = new PlayerConfig(settings);
-        let botData = new PlayerData(name[i].login.username, settings);
+        let botData = new PlayerData(name[parseInt(Math.random() * (settings.numBots - 1))].login.username, settings);
         bot.playerConfig = botConfig;
         bot.playerData = botData;
         players.push(botData);
         bots.push(bot);
         playerInfo.set(bot.playerData.uid, bot);
-    }
-}
-
-async function pushBot(bots, players, playerInfo) {
-    // console.log("pushing bot")
-    const name_dat = await axios.get(`https://randomuser.me/api/`)
-    const name = name_dat.data.results;
-    const bot = new Player(null);
-    let botConfig = new PlayerConfig(settings);
-    let botData = new PlayerData(name[0].login.username, settings);
-    bot.playerConfig = botConfig;
-    bot.playerData = botData;
-    players.push(botData);
-    bots.push(bot);
-    playerInfo.set(bot.playerData.uid, bot);
+    })
 }
 
 function moveBots(bots, players, orbs) {

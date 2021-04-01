@@ -12,7 +12,7 @@ const Orb = require('./classes/Orb')
 //Database stuff
 const client = require('../database/database');
 const updateQuery = 'INSERT INTO leaderboard(sub, name, orbs_absorbed, players_killed, score) VALUES($1, $2, $3, $4, $5) returning *';
-const { initiateBots, moveBots } = require('./botLogic');
+const { initiateBots, moveBots, pushBot } = require('./botLogic');
 
 //In memory data
 let orbs = [];
@@ -26,7 +26,7 @@ initGame()
 let playerInfo = new Map();
 
 
-//internal clock of the server
+//internal clock of the server, every 16ms, do this!
 setInterval(() => {
     moveBots(bots, players, orbs);
     for (let [id, player] of playerInfo) {
@@ -65,9 +65,29 @@ setInterval(() => {
                 }
                 io.sockets.emit('updateLeaderBoard', getLeaderBoard());
                 io.sockets.emit('playerDeath', data);
+
             }).catch(() => {
                 //No player collision
             })
+
+            //remove bots that have gotten too big!
+            //if this is true, player is a bot!
+            if (playerInfo.get(player.playerData.uid) && player.playerData.score > (process.env.MAX_BOT_SCORE || 5000)) {
+                //delete the bot from the memory
+                playerInfo.delete(player.playerData.uid);
+                bots.forEach((bot, j) => {
+                    if (bot.playerData.uid === player.playerData.uid) {
+                        bots.splice(j, 1);
+                    }
+                })
+                //replace the bot
+                pushBot(bots, players, playerInfo);
+                players.forEach((p, j) => {
+                    if (p.uid === player.playerData.uid) {
+                        players.splice(j, 1);
+                    }
+                })
+            }
         }
     }
 }, 16);
@@ -78,17 +98,13 @@ setInterval(() => {
 
 io.sockets.on('connect', socket => {
     if (numPlayers === 0) {
-        // console.log(players);
         initiateBots(bots, players, playerInfo);
-        // console.log(bots);
     }
     numPlayers++;
     let player = {};
     player = new Player(socket.id);
     playerInfo.set(socket.id, player);
     socket.on('init', data => {
-        // console.log(numPlayers);
-        // console.log(numPlayers)
         socket.join('game');
         let playerConfig = new PlayerConfig(settings);
         let playerData = new PlayerData(data.playerName, settings);
@@ -128,12 +144,18 @@ io.sockets.on('connect', socket => {
         }
     })
     socket.on('disconnect', data => {
-        //find out who just left!
         numPlayers--;
         if (numPlayers == 0) {
             //reset all data to save computational power on server
             console.log('resetting');
+
+            //delete all bots
+            bots.forEach(bot => {
+                playerInfo.delete(bot.uid);
+            })
             bots = [];
+
+            //reset all players
             players = [];
         }
         if (player.playerData) {

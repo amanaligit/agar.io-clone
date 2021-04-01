@@ -7,7 +7,6 @@ function checkForOrbCollisions(pData, pConfig, orbs, settings) {
         //ORB COLLISIONS
         let collisions = [];
         orbs.forEach((orb, i) => {
-            // console.log("CHECK FOR COLLISIONS")
             // AABB Test(square)  - Axis-aligned bounding boxes
             if (pData.locX + pData.radius + orb.radius > orb.locX
                 && pData.locX < orb.locX + pData.radius + orb.radius
@@ -54,7 +53,6 @@ function checkForPlayerCollisions(pData, pConfig, players, playerId, bots, playe
         //PLAYER COLLISIONS	
         players.forEach((curPlayer, i) => {
             if (curPlayer.uid != playerId) {
-                // console.log(curPlayer.uid,pData.uid)
                 let pLocx = curPlayer.locX
                 let pLocy = curPlayer.locY
                 let pR = curPlayer.radius
@@ -79,7 +77,6 @@ function checkForPlayerCollisions(pData, pConfig, players, playerId, bots, playe
                             //  = false;
                             curPlayer.alive = false;
                             let del = null;
-
                             //check if the dying player was a bot;
                             if (playerInfo.delete(players[i].uid)) {
                                 bots.forEach((bot, j) => {
