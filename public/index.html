@@ -19,9 +19,7 @@
 			<canvas id="the-canvas">
 				<!-- our drawing will go here -->
 			</canvas>
-			<div id="score-wrapper" class="hiddenOnStart" hidden>
-				<div>Score: <span class="player-score"></span></div>
-			</div>
+
 			<div id="leader-board-wrapper" class="hiddenOnStart" hidden>
 				<div id="leader-board">
 					<h3 class="text-center" id="leader-heading">Leaders</h3>
@@ -30,6 +28,7 @@
 						<li class="leaderboard-player"></li>
 					</ol>
 					<hr>
+
 				</div>
 				<div id="sort-wrapper">
 					<div id="sort-header" class="text-center">SORT BY</div>
@@ -37,13 +36,17 @@
 					<div id="sort-orbs" class="sort-option">Orbs</div>
 					<div id="sort-players" class="sort-option">Players</div>
 				</div>
+
+				<div id="score-wrapper" class="hiddenOnStart" hidden>
+					<div>Score: <span class="player-score"></span></div>
+				</div>
 			</div>
-			<button id="quit-btn" class="hiddenOnStart" hidden onclick="quit()">
-				<i class="fas fa-window-close"></i> Quit Game
-			</button>
+
+
 			<div id="game-message-wrapper">
 				<div id="game-message"></div>
 			</div>
+			<i class="fas fa-window-close hiddenOnStart" id="quit-btn" hidden onclick="quit()" title="Quit"></i>
 		</div>
 
 	</div>

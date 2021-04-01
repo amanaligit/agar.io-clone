@@ -27,33 +27,26 @@ label {
   opacity: 0.7;
   position: absolute;
   top: 10px;
-  right: 10px;
+  left: 10px;
   border-radius: 5px;
 }
 
 #quit-btn {
-  min-width: 160px;
-  background-color: #800000;
-  color: white;
-  font-size: 2rem;
+  position: fixed;
+  right: 1rem;
+  top: 1rem;
+  margin-top: 0.5rem;
+  color: red;
+  font-size: 4rem;
   opacity: 0.7;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  border-radius: 5px;
+  border-radius: 0.5rem;
+  padding: 0rem;
+  cursor: pointer;
 }
 
 #score-wrapper {
-  min-width: 120px;
-  background-color: white;
-  color: black;
-  font-size: 23px;
-  opacity: 0.7;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  padding: 5px;
-  border-radius: 5px;
+  text-align: center;
+  font-size: 3rem;
 }
 
 #leader-board {
@@ -254,8 +247,6 @@ canvas {
 }
 
 .join-button {
-  /* color: white; */
-  /* background-color: #00e6e6; */
   margin-right: 10px;
 }
 
@@ -265,18 +256,18 @@ canvas {
 
 #game-message-wrapper {
   position: fixed;
+  width: 100%;
   left: 50%;
   transform: translate(-50%, 0);
-  bottom: 20px;
+  bottom: 2rem;
 }
 
 #game-message {
   display: table;
-  font-size: 20px;
+  font-size: 2rem;
   border-radius: 5px;
   padding: 5px 15px;
   color: white;
-  /* background-color: #e600e6; */
   margin: auto;
   opacity: 0;
 }

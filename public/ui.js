@@ -27,7 +27,9 @@ window.addEventListener("resize", () => {
         document.getElementById('sort-wrapper').style.fontSize = '3rem';
         document.getElementById('sort-wrapper').style.fontSize = '3rem';
         document.getElementById('score-wrapper').style.fontSize = '4rem';
-        document.getElementById('quit-btn').style.fontSize = '4rem';
+        document.getElementById('quit-btn').style.fontSize = '10rem';
+        document.getElementById('game-message').style.fontSize = '3rem';
+
     }
 });
 
