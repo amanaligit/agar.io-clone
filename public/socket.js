@@ -55,18 +55,8 @@ socket.on('tock', data => {
         player.zoom = data.zoom;
     }
 
-})
-
-socket.on('orbSwitch', data => {
-
-    data.orbIndices.forEach((index, i) => {
-        orbs[index] = data.newOrbs[i];
-    })
-})
-
-socket.on('updateLeaderBoard', data => {
-    lb = data;
-    lb.forEach(p => {
+    //update the leaderboard!
+    players.forEach(p => {
         if (p.name === player.name) {
             document.querySelector('.player-score').innerHTML = player.score;
             player.orbsAbsorbed = p.orbsAbsorbed;
@@ -74,9 +64,17 @@ socket.on('updateLeaderBoard', data => {
             player.score = p.score;
         }
     })
-    lb = lb.slice(0, 5);
+    lb = players;
     displayLB();
+
 })
+
+socket.on('orbSwitch', data => {
+    data.orbIndices.forEach((index, i) => {
+        orbs[index] = data.newOrbs[i];
+    })
+})
+
 
 function displayLB() {
     let by = null;
@@ -92,6 +90,7 @@ function displayLB() {
     let lb_element = document.querySelector('.leader-board');
     lb_element.innerHTML = "";
     lb.sort((a, b) => b[by] - a[by]);
+    lb = lb.slice(0, 5);
     lb.forEach(p => {
         lb_element.innerHTML += `<li class="leaderboard-player">${p.name} - ${p[by]}</li>`
     })
@@ -106,7 +105,6 @@ socket.on('playerDeath', data => {
     $('#game-message').show();
     $('#game-message').fadeOut(5000);
     if (player.uid === data.died.uid) {
-        // console.log(player);
         $('#game-over-modal').modal('show');
         document.querySelector('#killed-by-dialog').innerHTML = data.killedBy.name;
         document.querySelector('#score-dialog').innerHTML = document.querySelector('.player-score').innerHTML;

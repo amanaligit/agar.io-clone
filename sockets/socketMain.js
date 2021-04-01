@@ -46,7 +46,6 @@ setInterval(() => {
                 }
 
                 //Updating the Leaderboard
-                io.sockets.emit('updateLeaderBoard', getLeaderBoard());
                 io.sockets.emit('orbSwitch', orbData);
             }).catch(() => {
                 //catch runs if reject runs
@@ -63,7 +62,6 @@ setInterval(() => {
                         player.PlayerConfig = null;
                     }
                 }
-                io.sockets.emit('updateLeaderBoard', getLeaderBoard());
                 io.sockets.emit('playerDeath', data);
 
             }).catch(() => {
@@ -183,22 +181,6 @@ async function updateLeaderBoard(values) {
 }
 
 
-
-
-function getLeaderBoard() {
-    players.sort((a, b) => {
-        return b.score - a.score;
-    })
-    let leaderBoard = players.map(curplayer => {
-        return {
-            name: curplayer.name,
-            score: curplayer.score,
-            playersKilled: curplayer.playersKilled,
-            orbsAbsorbed: curplayer.orbsAbsorbed
-        }
-    })
-    return leaderBoard;
-}
 
 //run at the beginning of a new game
 function initGame() {
