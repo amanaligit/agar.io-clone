@@ -43,34 +43,55 @@ function moveBots(bots, players, orbs) {
         let minDist = settings.worldHeight * settings.worldWidth;
         let xVector = 0;
         let yVector = 0;
+        let mousePosition = {
+            x: 1000,
+            y: 1000
+        };
         orbs.forEach((orb, i) => {
             const dist =
                 Math.abs(bot.playerData.locX - orb.locX) +
                 Math.abs(bot.playerData.locY - orb.locY)
             if (dist <= minDist) {
                 minDist = dist;
-                const mousePosition = {
+                mousePosition = {
                     x: orb.locX,
                     y: orb.locY
                 };
-                const angleDeg = Math.atan2(mousePosition.y - bot.playerData.locY, mousePosition.x - bot.playerData.locX) * 180 / Math.PI;
-                if (angleDeg >= 0 && angleDeg < 90) {
-                    xVector = 1 - (angleDeg / 90);
-                    yVector = -(angleDeg / 90);
-                } else if (angleDeg >= 90 && angleDeg <= 180) {
-                    xVector = -(angleDeg - 90) / 90;
-                    yVector = -(1 - ((angleDeg - 90) / 90));
-                } else if (angleDeg >= -180 && angleDeg < -90) {
-                    xVector = (angleDeg + 90) / 90;
-                    yVector = (1 + ((angleDeg + 90) / 90));
-                } else if (angleDeg < 0 && angleDeg >= -90) {
-                    xVector = (angleDeg + 90) / 90;
-                    yVector = (1 - ((angleDeg + 90) / 90));
-                }
-                bot.playerConfig.xVector = xVector;
-                bot.playerConfig.yVector = yVector;
+
             }
         })
+        //find the nearest player smaller than the bot!
+        players.forEach((p, i) => {
+            const dist =
+                Math.abs(bot.playerData.locX - p.locX) +
+                Math.abs(bot.playerData.locY - p.locY)
+            if (dist <= minDist && p.radius < bot.playerData.radius) {
+                minDist = dist;
+                mousePosition = {
+                    x: p.locX,
+                    y: p.locY
+                };
+            }
+        })
+
+        //now calculate the vector!
+        const angleDeg = Math.atan2(mousePosition.y - bot.playerData.locY, mousePosition.x - bot.playerData.locX) * 180 / Math.PI;
+        if (angleDeg >= 0 && angleDeg < 90) {
+            xVector = 1 - (angleDeg / 90);
+            yVector = -(angleDeg / 90);
+        } else if (angleDeg >= 90 && angleDeg <= 180) {
+            xVector = -(angleDeg - 90) / 90;
+            yVector = -(1 - ((angleDeg - 90) / 90));
+        } else if (angleDeg >= -180 && angleDeg < -90) {
+            xVector = (angleDeg + 90) / 90;
+            yVector = (1 + ((angleDeg + 90) / 90));
+        } else if (angleDeg < 0 && angleDeg >= -90) {
+            xVector = (angleDeg + 90) / 90;
+            yVector = (1 - ((angleDeg + 90) / 90));
+        }
+        bot.playerConfig.xVector = xVector;
+        bot.playerConfig.yVector = yVector;
+
         //now move the bot
         speed = bot.playerConfig.speed;
         xV = bot.playerConfig.xVector;
