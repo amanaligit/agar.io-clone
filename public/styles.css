@@ -1,273 +1,668 @@
+/* ================================
+   COSMIC THEME - Space Agar.io
+   ================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-dark: #0a0a1a;
+  --bg-card: rgba(15, 15, 35, 0.85);
+  --bg-glass: rgba(255, 255, 255, 0.05);
+  --border-glow: rgba(0, 255, 255, 0.3);
+  --accent-cyan: #00ffff;
+  --accent-magenta: #ff00ff;
+  --accent-purple: #8b5cf6;
+  --accent-green: #00ff88;
+  --accent-orange: #ff6b35;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.5);
+  --gradient-cosmic: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-neon: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
+  --shadow-glow: 0 0 30px rgba(0, 255, 255, 0.3);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  /* background-color: black; */
+  font-family: 'Exo 2', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-primary);
   overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
-h3 {
-  margin-top: 10px;
+
+h1, h2, h3, h4, h5, h6, .modal-title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
+
+/* ================================
+   GAME FIELD & CANVAS
+   ================================ */
+
 #game-field {
   padding: 0;
   position: relative;
+}
+
+canvas {
+  display: block;
+  background-color: #050510;
+  background-image: url("images/starfield.jpg");
+  background-size: cover;
 }
 
 .hidden {
   display: none;
 }
 
-label {
-  margin-bottom: 10px;
-  display: block;
-}
+/* ================================
+   IN-GAME HUD
+   ================================ */
 
 #leader-board-wrapper {
-  min-width: 160px;
-  background-color: #800000;
-  color: white;
-  font-size: 18px;
-  opacity: 0.7;
+  min-width: 200px;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glow);
+  color: var(--text-primary);
+  font-size: 14px;
   position: absolute;
-  top: 10px;
-  left: 10px;
-  border-radius: 5px;
-}
-
-#quit-btn {
-  position: fixed;
-  right: 1rem;
-  top: 1rem;
-  margin-top: 0.5rem;
-  color: red;
-  font-size: 4rem;
-  opacity: 0.7;
-  border-radius: 0.5rem;
-  padding: 0rem;
-  cursor: pointer;
-}
-
-#score-wrapper {
-  text-align: center;
-  font-size: 3rem;
+  top: 20px;
+  left: 20px;
+  border-radius: 16px;
+  box-shadow: var(--shadow-glow), var(--shadow-card);
+  overflow: hidden;
 }
 
 #leader-board {
-  padding: 1rem;
+  padding: 1rem 1.2rem;
+}
+
+#leader-heading {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 0 10px var(--accent-cyan);
+}
+
+#leader-board hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  margin: 0.5rem 0;
+}
+
+#leader-board ol {
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.leaderboard-player {
+  font-size: 0.9rem;
+  padding: 3px 0;
+  color: var(--text-secondary);
 }
 
 #sort-wrapper {
-  margin-top: -20px;
-  font-size: 14px;
+  display: flex;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-@media screen and (max-width: 1000px) {
-  .modal button {
-    font-size: 3.5rem !important;
-  }
-  .modal h2 {
-    font-size: 4rem;
-  }
-  .modal h3 {
-    font-size: 3rem;
-    /* color: rgb(85, 124, 255); */
-  }
-  .modal h4 {
-    font-size: 2.5rem;
-  }
-  ul {
-    font-size: 2.2rem !important;
-  }
-  label {
-    font-size: 2.2rem !important;
-  }
-
-  input[type="text"] {
-    font-size: 2.2rem;
-  }
-
-  table {
-    font-size: 1.6rem !important;
-  }
-
-  .modal-dialog {
-    width: 90%;
-    max-width: 90%;
-  }
-}
-
-.close {
+#sort-header {
   display: none;
 }
 
 .sort-option {
-  padding: 3px 0;
-  width: 33.33%;
+  flex: 1;
+  padding: 10px 5px;
   text-align: center;
-  float: left;
-  border-top: solid 2px black;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--text-muted);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sort-option:last-child {
+  border-right: none;
 }
 
 .sort-option:hover {
+  background: rgba(0, 255, 255, 0.1);
+  color: var(--accent-cyan);
+}
+
+.sort-option.active {
+  background: rgba(0, 255, 255, 0.2);
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px var(--accent-cyan);
+}
+
+#score-wrapper {
+  text-align: center;
+  padding: 1rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  color: var(--accent-green);
+  text-shadow: 0 0 15px var(--accent-green);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#quit-btn {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  color: #ff4757;
+  font-size: 2.5rem;
   cursor: pointer;
-  background-color: #4d0000;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
 }
 
-.active {
-  background-color: #4d0000;
-}
-
-#btn-login {
-  margin-top: 2rem;
-}
-
-#sort-orbs {
-  border-left: solid 2px black;
-  border-right: solid 2px black;
-}
-
-th {
-  cursor: pointer;
-}
-
-canvas {
-  display: block;
-  background-color: black;
-  background-image: url("images/starfield.jpg");
-}
-.modal-sm {
-  min-width: 500px;
-  width: 30%;
-}
-
-.modal-content {
-  margin-top: 100px;
-  background-color: white;
-  border-radius: 10px;
-}
-
-.text-input {
-  font-size: 20px;
-  display: block;
-  margin: auto;
-  /* margin-bottom: 20px; */
-  width: 90%;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-.error-message {
-  font-size: 13px;
-  color: #e60000;
-}
-
-.play-button {
-  font-size: 20px;
-  display: block;
-  margin: 5px auto 5px;
-  width: 90%;
-  /* background-color: #00e6e6; */
-  /* color: #ffffff; */
-}
-
-.btn-github {
-  background-image: url("/images/GitHub-Mark-Light-32px.png") !important;
-  /* color: #fff; */
-  background-color: #444;
-  border-color: rgba(0, 0, 0, 0.2);
-  background-repeat: no-repeat;
-  background-position: 5px;
-}
-
-.stats-btn {
-  width: 48%;
-  margin: 0 auto 15px;
-  font-size: 18px;
-  display: inline-block;
-  /* background-color: #e600e6; */
-  color: #ffffff;
-}
-
-#create-button {
-  font-size: 20px;
-  display: block;
-  margin: 5px auto 5px;
-  width: 90%;
-  /* background-color: #00e600; */
-  /* color: #ffffff; */
-}
-
-#playerStats-all-btn,
-#playerStats-player-btn {
-  font-size: 20px;
-  display: block;
-  margin: 5px auto 5px;
-  width: 90%;
-  /* background-color: #e600e6; */
-  /* color: #ffffff; */
-}
-
-.stats-btn-wrapper,
-.play-btn-wrapper {
-  width: 90%;
-  margin: auto;
-}
-
-.btn-wrapper {
-  width: 90%;
-  margin: 20px auto;
-}
-
-#logout-btn {
-  display: none;
-}
-
-.stats,
-.stat-number {
-  padding-top: 10px;
-  font-size: 20px;
-  width: 70%;
-  display: inline-block;
-}
-
-.stat-number {
-  width: 30%;
-  font-weight: bold;
-}
-
-.modal-footer {
-  clear: both;
-  text-align: left;
-}
-
-.player-stats {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.teams {
-  margin: 10px 0;
-}
-
-.join-button {
-  margin-right: 10px;
-}
-
-.team {
-  font-size: 18px;
+#quit-btn:hover {
+  transform: scale(1.1);
+  text-shadow: 0 0 20px rgba(255, 71, 87, 0.8);
 }
 
 #game-message-wrapper {
   position: fixed;
   width: 100%;
   left: 50%;
-  transform: translate(-50%, 0);
+  transform: translateX(-50%);
   bottom: 2rem;
+  z-index: 100;
 }
 
 #game-message {
   display: table;
-  font-size: 2rem;
-  border-radius: 5px;
-  padding: 5px 15px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  border-radius: 50px;
+  padding: 12px 30px;
   color: white;
   margin: auto;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.9) 0%, rgba(139, 92, 246, 0.9) 100%);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
   opacity: 0;
+}
+
+/* ================================
+   MODALS - Glassmorphism
+   ================================ */
+
+.modal-backdrop {
+  background: rgba(5, 5, 20, 0.8);
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: var(--bg-card);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid var(--border-glow);
+  border-radius: 24px;
+  box-shadow: var(--shadow-glow), var(--shadow-card);
+  margin-top: 50px;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(255, 0, 255, 0.1) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 2rem;
+}
+
+.modal-title {
+  color: var(--text-primary);
+  font-size: 1.8rem;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.modal-title i {
+  color: var(--accent-cyan);
+  margin: 0 10px;
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.modal-footer {
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 2rem;
+}
+
+.close {
+  display: none;
+}
+
+/* ================================
+   BUTTONS - Neon Glow
+   ================================ */
+
+.btn {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 14px 28px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.play-button {
+  display: block;
+  width: 100%;
+  margin: 10px auto;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 184, 148, 0.6);
+}
+
+.btn-info {
+  background: linear-gradient(135deg, #0984e3 0%, #00cec9 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(9, 132, 227, 0.4);
+}
+
+.btn-info:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(9, 132, 227, 0.6);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #e17055 0%, #d63031 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(214, 48, 49, 0.4);
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(214, 48, 49, 0.6);
+}
+
+.start-game {
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-magenta) 100%);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  padding: 18px 32px;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.start-game:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 0 50px rgba(0, 255, 255, 0.6);
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.4); }
+  50% { box-shadow: 0 0 50px rgba(0, 255, 255, 0.6); }
+}
+
+/* ================================
+   FORM INPUTS
+   ================================ */
+
+.form-control, .text-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1rem;
+  padding: 14px 18px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.form-control:focus, .text-input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  outline: none;
+  color: var(--text-primary);
+}
+
+.form-control::placeholder, .text-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ================================
+   AUTH FORMS
+   ================================ */
+
+#auth-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 1rem;
+}
+
+#auth-buttons .btn {
+  flex: 1;
+  max-width: 200px;
+}
+
+#auth-forms-container {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-form {
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.auth-form h4 {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--accent-cyan);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.auth-form input {
+  margin-bottom: 12px;
+}
+
+.auth-form a {
+  color: var(--accent-cyan);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.auth-form a:hover {
+  color: var(--accent-magenta);
+  text-shadow: 0 0 10px var(--accent-magenta);
+}
+
+.auth-form p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ================================
+   DIVIDERS & TEXT
+   ================================ */
+
+h2.text-center {
+  color: var(--text-muted);
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+h3.text-center {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--text-primary);
+  font-size: 1.3rem;
+}
+
+.player-name {
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px var(--accent-cyan);
+}
+
+/* ================================
+   INSTRUCTIONS
+   ================================ */
+
+#instructions {
+  color: var(--text-secondary);
+}
+
+#how-to-play {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  color: var(--accent-purple);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+#instructions ul {
+  padding-left: 1.2rem;
+  margin: 0;
+}
+
+#instructions li {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+/* ================================
+   STATS & GAME OVER
+   ================================ */
+
+.modal-body .row {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-body .row:last-of-type {
+  border-bottom: none;
+}
+
+.modal-body h3, .modal-body h4 {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.modal-body .col-md-6:last-child h3,
+.modal-body .col-md-6:last-child h4 {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+/* ================================
+   LEADERBOARD TABLE
+   ================================ */
+
+.table {
+  color: var(--text-primary);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table thead {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.8) 0%, rgba(102, 126, 234, 0.8) 100%);
+}
+
+.table thead th {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 15px 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.table thead th:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.table tbody tr {
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background: rgba(0, 255, 255, 0.1);
+}
+
+.table tbody td, .table tbody th {
+  padding: 12px;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.95rem;
+}
+
+/* ================================
+   BACK BUTTON
+   ================================ */
+
+.modal-header button[onclick="back()"] {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-family: 'Exo 2', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-header button[onclick="back()"]:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--accent-cyan);
+}
+
+/* ================================
+   ERROR MESSAGES
+   ================================ */
+
+.error-message, .text-danger {
+  color: #ff6b6b !important;
+  font-size: 0.9rem;
+  text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media screen and (max-width: 768px) {
+  .modal-content {
+    margin: 20px 10px;
+    border-radius: 16px;
+  }
+  
+  .modal-header, .modal-body, .modal-footer {
+    padding: 1rem 1.2rem;
+  }
+  
+  .modal-title {
+    font-size: 1.3rem;
+  }
+  
+  .btn {
+    font-size: 0.9rem;
+    padding: 12px 20px;
+  }
+  
+  #leader-board-wrapper {
+    min-width: 150px;
+    font-size: 12px;
+  }
+  
+  #score-wrapper {
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .modal button {
+    font-size: 1rem !important;
+  }
+  
+  .modal h2 {
+    font-size: 1.5rem;
+  }
+  
+  .modal h3 {
+    font-size: 1.2rem;
+  }
+  
+  .modal-dialog {
+    width: 95%;
+    max-width: 95%;
+    margin: 10px auto;
+  }
+}
+
+/* ================================
+   ANIMATIONS
+   ================================ */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.modal-title i {
+  animation: float 3s ease-in-out infinite;
+}
+
+.modal-title i:last-child {
+  animation-delay: 0.5s;
 }

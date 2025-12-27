@@ -71,6 +71,32 @@ socket.on('tock', data => {
 
 socket.on('orbSwitch', data => {
     data.orbIndices.forEach((index, i) => {
+        const oldOrb = orbs[index];
+        
+        // Find the player who absorbed it
+        if (oldOrb && typeof spawnOrbAbsorption === 'function') {
+            let absorber = null;
+            let minDist = Infinity;
+            
+            players.forEach(p => {
+                const dx = p.locX - oldOrb.locX;
+                const dy = p.locY - oldOrb.locY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < p.radius + 20 && dist < minDist) {
+                    minDist = dist;
+                    absorber = p;
+                }
+            });
+            
+            // Spawn suction effect toward the absorber
+            if (absorber) {
+                spawnOrbAbsorption(
+                    oldOrb.locX, oldOrb.locY, oldOrb.color, oldOrb.radius || 5,
+                    absorber.locX, absorber.locY, absorber.radius
+                );
+            }
+        }
+        
         orbs[index] = data.newOrbs[i];
     })
 })
@@ -97,6 +123,19 @@ function displayLB() {
 }
 
 socket.on('playerDeath', data => {
+    // Spawn dramatic player absorption effect - sucked into killer
+    if (typeof spawnPlayerAbsorption === 'function' && data.died && data.killedBy) {
+        spawnPlayerAbsorption(
+            data.died.locX, 
+            data.died.locY, 
+            data.died.color || '#ff0000',
+            data.died.radius || 30,
+            data.killedBy.locX,
+            data.killedBy.locY,
+            data.killedBy.radius || 30
+        );
+    }
+    
     document.querySelector('#game-message').innerHTML = `${data.died.name} absorbed by ${data.killedBy.name}`
     $('#game-message').css({
         "background-color": "#00e6e6",

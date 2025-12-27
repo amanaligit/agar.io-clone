@@ -93,7 +93,12 @@ function back() {
 }
 
 async function showStats() {
-    const token = await auth0.getTokenSilently();
+    if (!Auth.isAuthenticated()) {
+        alert('You must be logged in to view stats');
+        return;
+    }
+
+    const token = Auth.getToken();
     const response = await fetch("/stats", {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -103,9 +108,9 @@ async function showStats() {
     $('.modal').modal('hide');
     $('#stats-modal').modal('show');
     document.getElementById('stats-name').innerHTML = player.name;
-    document.getElementById('stats-score').innerHTML = stats.maxScore;
-    document.getElementById('stats-kills').innerHTML = stats.sumPlayers;
-    document.getElementById('stats-orbs').innerHTML = stats.sumOrbs;
+    document.getElementById('stats-score').innerHTML = stats.maxScore || 0;
+    document.getElementById('stats-kills').innerHTML = stats.sumPlayers || 0;
+    document.getElementById('stats-orbs').innerHTML = stats.sumOrbs || 0;
 }
 
 function quit() {

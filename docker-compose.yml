@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: agar-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: agar
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d agar"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: agar-app
+    environment:
+      # Database & Auth
+      DATABASE_URL: postgresql://postgres:password@db:5432/agar
+      JWT_SECRET: your-super-secret-key-change-in-production
+      PORT: 5000
+
+      # Game Settings
+      DEFAULT_ORBS: 25 # Number of orbs in the world
+      DEFAULT_SPEED: 1.5 # Player movement speed
+      DEFAULT_SIZE: 6 # Starting player size
+      DEFAULT_ZOOM: 2 # Camera zoom level
+      WORLD_WIDTH: 1500 # World width in pixels
+      WORLD_HEIGHT: 1500 # World height in pixels
+      MIN_SPEED: 0.05 # Minimum speed when large
+
+      # Bot Settings
+      NUM_BOTS: 5 # Number of AI bots
+      BOT_SPEED: 1 # Bot movement speed
+      BOT_SIZE: 6 # Bot starting size
+      MAX_BOT_SCORE: 5000 # Remove bots when they reach this score
+    ports:
+      - "5000:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

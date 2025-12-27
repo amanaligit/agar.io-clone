@@ -65,18 +65,57 @@
 					</h2>
 				</div>
 				<div class="modal-body">
+					<!-- Guest Play Form -->
 					<form class="name-form">
 						<div class="text-center error-message"></div>
 						<input id="name-input" class="text-input text-center form-control" type="text" name="name-input"
 							placeholder="Enter your name here" required>
-						<button type="submit" class="btn  btn-info play-button"><i class="fas fa-user"></i>
+						<button type="submit" class="btn btn-info play-button"><i class="fas fa-user"></i>
 							Play as Guest </button>
 					</form>
+
 					<br>
 					<h2 class='text-center'> OR </h2>
-					<button type="submit" class="btn btn-primary play-button" onclick="login()" id="btn-login"><i
-							class="fas fa-sign-in-alt"></i>
-						Login</button>
+
+					<!-- Auth buttons -->
+					<div id="auth-buttons" class="text-center">
+						<button type="button" class="btn btn-primary play-button" onclick="showLoginForm()">
+							<i class="fas fa-sign-in-alt"></i> Login
+						</button>
+						<button type="button" class="btn btn-success play-button" onclick="showRegisterForm()">
+							<i class="fas fa-user-plus"></i> Register
+						</button>
+					</div>
+
+					<!-- Login Form -->
+					<div id="auth-forms-container" class="hidden">
+						<form id="login-form" class="auth-form hidden" onsubmit="handleLogin(event)">
+							<h4 class="text-center mb-3">Login to your account</h4>
+							<div class="text-center text-danger mb-2" id="login-error"></div>
+							<input type="text" id="login-username" class="form-control mb-2" placeholder="Username" required>
+							<input type="password" id="login-password" class="form-control mb-2" placeholder="Password" required>
+							<button type="submit" class="btn btn-primary btn-block">
+								<i class="fas fa-sign-in-alt"></i> Login
+							</button>
+							<p class="text-center mt-2">
+								<a href="#" onclick="showRegisterForm()">Don't have an account? Register</a>
+							</p>
+						</form>
+
+						<form id="register-form" class="auth-form hidden" onsubmit="handleRegister(event)">
+							<h4 class="text-center mb-3">Create an account</h4>
+							<div class="text-center text-danger mb-2" id="register-error"></div>
+							<input type="text" id="register-username" class="form-control mb-2" placeholder="Username (3-50 chars)" required minlength="3" maxlength="50">
+							<input type="password" id="register-password" class="form-control mb-2" placeholder="Password (6+ chars)" required minlength="6">
+							<input type="password" id="register-confirm-password" class="form-control mb-2" placeholder="Confirm Password" required>
+							<button type="submit" class="btn btn-success btn-block">
+								<i class="fas fa-user-plus"></i> Register
+							</button>
+							<p class="text-center mt-2">
+								<a href="#" onclick="showLoginForm()">Already have an account? Login</a>
+							</p>
+						</form>
+					</div>
 				</div>
 				<div class="modal-footer justify-content-start">
 					<div id="instructions">
@@ -265,8 +304,9 @@
 						<i class="fas fa-signal"></i>
 						Show my stats
 					</button>
-					<button id="logout-btn" type="button" onclick="logout()" class="btn play-button btn-danger"><i
-							class="fas fa-sign-out-alt"></i>
+					<button id="logout-btn" type="button" onclick="logout()" class="btn play-button btn-danger"
+						style="display:none;">
+						<i class="fas fa-sign-out-alt"></i>
 						Logout
 					</button>
 				</div>
@@ -286,7 +326,6 @@
 			</div>
 		</div>
 	</div>
-	<script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
 		integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
