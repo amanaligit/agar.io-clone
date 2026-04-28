@@ -8,9 +8,11 @@
     "dev": "nodemon index.js",
     "start": "node index.js & node performanceMetrics.js",
     "db:setup": "node database/setup.js",
-    "docker:up": "docker-compose up --build",
-    "docker:down": "docker-compose down",
-    "docker:logs": "docker-compose logs -f"
+    "docker:up": "docker compose up --build",
+    "docker:redeploy": "docker compose up -d --build",
+    "redeploy": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
   },
   "author": "Aman Ali",
   "license": "MIT",

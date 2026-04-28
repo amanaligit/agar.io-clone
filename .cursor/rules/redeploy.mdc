@@ -1,0 +1,14 @@
+---
+description: After server/game client or Docker changes, redeploy the compose stack
+alwaysApply: true
+---
+
+# Docker redeploy
+
+When you finish edits that affect the running game (anything under `sockets/`, `express/`, `public/`, `gameSettings.js`, `Dockerfile`, or `docker-compose.yml`), run a redeploy before considering the task done:
+
+```bash
+npm run redeploy
+```
+
+Same as `docker compose up -d --build` from the repo root. Do not only describe redeploy steps to the user—execute them unless they explicitly ask not to.

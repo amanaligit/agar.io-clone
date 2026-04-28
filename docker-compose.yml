@@ -29,25 +29,48 @@ services:
       PORT: 5000
 
       # Game Settings
-      DEFAULT_ORBS: 25 # Number of orbs in the world
-      DEFAULT_SPEED: 1.5 # Player movement speed
-      DEFAULT_SIZE: 6 # Starting player size
+      DEFAULT_ORBS: 100 # Number of orbs in the world
+      DEFAULT_SPEED: 4 # Player movement speed
+      DEFAULT_SIZE: 12 # Starting player radius (blob size)
+      # When player radius reaches this (size units, same as DEFAULT_SIZE), reset to
+      # DEFAULT_SIZE and keep score. Unrelated to leaderboard score / MAX_BOT_SCORE.
+      MAX_RADIUS_BEFORE_RESET: 500
       DEFAULT_ZOOM: 2 # Camera zoom level
-      WORLD_WIDTH: 1500 # World width in pixels
-      WORLD_HEIGHT: 1500 # World height in pixels
+      WORLD_WIDTH: 2000 # World width in pixels
+      WORLD_HEIGHT: 2000 # World height in pixels
       MIN_SPEED: 0.05 # Minimum speed when large
+      SPEED_SLOWDOWN_FACTOR: 0.35 # Exponent for inverse size slowdown (higher = stronger slowing)
+      SPEED_BOOST_ORB_CHANCE: 0.08 # Fraction of orbs that are speed boost orbs
+      SPEED_BOOST_MULTIPLIER: 1.5 # Speed multiplier while boost is active
+      SPEED_BOOST_DURATION_MS: 3000 # Boost duration in milliseconds
+      SPEED_BOOST_FADEOUT_MS: 1500 # How long boost takes to ramp down after expiry
+      SPEED_BOOST_MAX_STACKS: 3 # Hard cap to prevent runaway bot speed
+      SPEED_BOOST_LEVELS: 4 # Number of boost duration tiers (1-8)
+      WORLD_TICK_MS: 33 # ~30Hz worldTick + meTick; lower = smoother, more bandwidth
+      WORLD_KEYFRAME_EVERY: 20 # Full player snapshot every N ticks; delta only between
 
       # Bot Settings
-      NUM_BOTS: 5 # Number of AI bots
-      BOT_SPEED: 1 # Bot movement speed
+      NUM_BOTS: 7 # Number of AI bots
+      BOT_SPEED: 3 # Bot movement speed
       BOT_SIZE: 6 # Bot starting size
-      MAX_BOT_SCORE: 5000 # Remove bots when they reach this score
+      BOT_MIN_SIZE: 6 # Minimum random bot size at spawn
+      BOT_MAX_SIZE: 20 # Maximum random bot size at spawn
+      BOT_ORB_BLINDNESS_CHANCE: 0 # Chance to ignore each orb while scanning
+      MAX_BOT_SCORE: 1500 # Remove bots when they reach this score
     ports:
       - "5000:5000"
     depends_on:
       db:
         condition: service_healthy
     restart: unless-stopped
+    # Cap log files so a future spammy bug (or attacker) can't fill the Pi's
+    # microSD with stdout. Without this, Docker's default JSON log driver
+    # writes unboundedly to /var/lib/docker/containers/.../*-json.log.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   postgres_data:
